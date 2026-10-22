@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fragebogen Zeiterfassung</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Kurzer Fragebogen zu Ihren Anforderungen an eine mobile Zeiterfassung. Dauer etwa 3 Minuten.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%232563eb'/%3E%3Ccircle cx='32' cy='34' r='16' fill='none' stroke='white' stroke-width='5'/%3E%3Cpath d='M32 25v10l7 4' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Crect x='26' y='11' width='12' height='5' rx='2' fill='white'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f4f6fa; --card: #ffffff; --text: #18202e; --muted: #5d6779;
+    --line: #dde2ea; --accent: #2563eb; --accent-soft: #e6eefe; --ok: #16a34a;
+    --shadow: 0 1px 2px rgba(20,30,50,.06), 0 6px 20px rgba(20,30,50,.06);
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f141c; --card: #182030; --text: #e8edf5; --muted: #9aa5b8;
+    --line: #2a3446; --accent: #6b9bff; --accent-soft: #1e2b46; --ok: #4ade80;
+    --shadow: none; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    padding-bottom: env(safe-area-inset-bottom);
+    transition: background .25s, color .25s;
+  }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 16px 8px; border-bottom: 1px solid var(--line); }
+  .bar-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 640px; margin: 0 auto; font-size: 13px; color: var(--muted); }
+  .track { max-width: 640px; margin: 8px auto 0; height: 6px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .fill { height: 100%; width: 0; background: var(--accent); border-radius: 6px; transition: width .4s cubic-bezier(.2,.8,.2,1); }
+  .theme { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+  .theme input { width: 16px; height: 16px; accent-color: var(--accent); }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  header h1 { font-size: 24px; line-height: 1.25; margin: 8px 0 6px; }
+  header p { color: var(--muted); margin: 0 0 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow);
+    padding: 16px; margin: 14px 0;
+    opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .45s ease, border-color .2s;
+  }
+  .card.in { opacity: 1; transform: none; }
+  .card.done { border-color: color-mix(in srgb, var(--ok) 55%, var(--line)); }
+  .qhead { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 4px; }
+  .num { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 13px; display: grid; place-items: center; transition: background .2s, color .2s; }
+  .card.done .num { background: var(--ok); color: #fff; }
+  .qtitle { font-weight: 650; font-size: 17px; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0 0 10px 36px; }
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px; min-height: 48px;
+    border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; user-select: none;
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .opt:active { transform: scale(.985); }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .mark { flex: none; width: 20px; height: 20px; border: 2px solid var(--line); display: grid; place-items: center; transition: all .15s; }
+  .opt[data-type="radio"] .mark { border-radius: 50%; }
+  .opt[data-type="checkbox"] .mark { border-radius: 6px; }
+  .opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.sel .mark { border-color: var(--accent); background: var(--accent); }
+  .opt.sel .mark::after { content: ""; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
+  .opt[data-type="checkbox"].sel .mark::after { width: 5px; height: 10px; background: none; border: solid #fff; border-width: 0 2.5px 2.5px 0; border-radius: 0; transform: rotate(45deg) translate(-1px,-1px); }
+  .multi-tag { font-size: 12px; color: var(--muted); font-weight: 400; }
+  textarea, input[type="text"] {
+    width: 100%; margin-top: 10px; padding: 11px 12px; font: inherit; color: var(--text);
+    background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; resize: vertical;
+  }
+  textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--accent); }
+  details { margin: 0 0 12px 36px; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; color: var(--muted); }
+  summary { list-style: none; cursor: pointer; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ""; width: 7px; height: 7px; border: solid var(--muted); border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform .2s; margin-right: 4px; }
+  details[open] summary::after { transform: rotate(-135deg); }
+  details div { padding: 0 10px 10px; }
+  .result h2 { margin: 0 0 6px; font-size: 20px; }
+  pre { white-space: pre-wrap; word-break: break-word; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; max-height: 320px; overflow: auto; }
+  .btns { display: grid; gap: 10px; margin-top: 12px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card); color: var(--text); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+  .btn.primary { background: #25d366; border-color: #25d366; color: #0b2e17; }
+  .btn:active { transform: scale(.985); }
+  .note { font-size: 13px; color: var(--muted); }
+  .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); transform: translate(-50%, 30px); opacity: 0; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; transition: all .3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .card { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-row">
+    <span id="progressText">0 von 0 beantwortet</span>
+    <label class="theme"><input type="checkbox" id="dark"> Dunkel</label>
+  </div>
+  <div class="track"><div class="fill" id="fill"></div></div>
+</div>
+
+<main>
+  <header>
+    <h1>Ihre Anforderungen an die Zeiterfassung</h1>
+    <p>Etwa 3 Minuten. Einfach antippen, Mehrfachauswahl ist gekennzeichnet. Am Ende schicken Sie mir die Zusammenfassung mit einem Tipp per WhatsApp zurück. Es wird nichts gespeichert oder an Dritte übertragen.</p>
+  </header>
+
+  <form id="form" autocomplete="on"></form>
+
+  <section class="card result" id="result">
+    <h2>Zusammenfassung</h2>
+    <p class="note">So kommt Ihre Antwort bei mir an. Sie können vorher noch alles ändern.</p>
+    <pre id="summary"></pre>
+    <div class="btns">
+      <a class="btn primary" id="waBtn" href="#" target="_blank" rel="noopener">Per WhatsApp senden</a>
+      <button class="btn" type="button" id="shareBtn">Teilen (Telegram, Mail …)</button>
+      <button class="btn" type="button" id="copyBtn">Text kopieren</button>
+    </div>
+    <p class="note">Nach dem Tippen öffnet sich WhatsApp mit dem fertigen Text. Bitte dort noch auf Senden drücken.</p>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== Einstellungen =====
+// WhatsApp-Nummer für den Rückversand, international ohne + und ohne Leerzeichen (z. B. 4917012345678).
+// Leer lassen: WhatsApp öffnet die Kontaktauswahl.
+const WA_NUMBER = '';
+const TITLE = 'Fragebogen Zeiterfassung';
+
+const QUESTIONS = [
+  { id: 'firma', type: 'text', title: 'Firma und Ansprechpartner', placeholder: 'z. B. Muster GmbH, Max Mustermann' },
+  { id: 'ma', type: 'radio', title: 'Wie viele Mitarbeitende sollen Zeiten erfassen?',
+    options: ['1 bis 9', '10 bis 49', '50 bis 249', '250 oder mehr'] },
+  { id: 'mobil', type: 'radio', title: 'Wie viele davon arbeiten unterwegs (Baustelle, Kunde, Außendienst)?',
+    options: ['Keine', 'Weniger als die Hälfte', 'Mehr als die Hälfte', 'Alle'] },
+  { id: 'land', type: 'checkbox', title: 'In welchen Ländern arbeiten die Mitarbeitenden?',
+    options: ['Deutschland', 'Österreich', 'Schweiz', 'Spanien'], other: 'Weitere Länder' },
+  { id: 'lohn', type: 'radio', title: 'Wie läuft die Lohnabrechnung?',
+    hint: 'Wichtigster Punkt für die Kompatibilität.',
+    info: 'DATEV hat zwei Lohnprogramme: LODAS (meist beim Steuerberater) und Lohn und Gehalt. Nicht jede Zeiterfassung kann an beide übergeben. Wenn Sie es nicht wissen: „Beim Steuerberater“ wählen, das klären wir dann.',
+    options: ['Beim Steuerberater (DATEV)', 'Selbst mit DATEV LODAS', 'Selbst mit DATEV Lohn und Gehalt', 'Anderes Lohnprogramm', 'Weiß ich nicht'], other: 'Welches Programm' },
+  { id: 'rechnung', type: 'radio', title: 'Womit schreiben Sie Rechnungen?',
+    options: ['sevDesk', 'Lexware Office (lexoffice)', 'DATEV Auftragswesen', 'ERP (z. B. SAP, Microsoft)', 'Zeiten werden nicht abgerechnet'], other: 'Anderes Programm' },
+  { id: 'umfang', type: 'checkbox', title: 'Was soll erfasst werden?',
+    options: ['Arbeitszeit (Beginn, Ende, Pausen)', 'Zeiten je Kunde oder Projekt', 'Tätigkeiten / Leistungsarten', 'Urlaub und Krankheit', 'Schicht- oder Dienstplanung', 'Fahrten / Fahrtenbuch'], other: 'Sonstiges' },
+  { id: 'weg', type: 'checkbox', title: 'Wie sollen die Mitarbeitenden stempeln?',
+    options: ['Handy-App', 'Browser am PC oder Notebook', 'Terminal mit Chip oder Karte', 'QR-Code oder NFC am Einsatzort'] },
+  { id: 'offline', type: 'radio', title: 'Gibt es Einsatzorte ohne Netz?',
+    hint: 'Dann muss die App offline erfassen und später nachsenden.',
+    options: ['Ja, häufig', 'Gelegentlich', 'Nein', 'Weiß ich nicht'] },
+  { id: 'gps', type: 'radio', title: 'Soll der Standort erfasst werden?',
+    info: 'GPS ist nur mit Einwilligung und klarer Regel zulässig. Viele Betriebe erfassen den Ort nur beim Ein- und Ausstempeln.',
+    options: ['Nein', 'Nur beim Ein- und Ausstempeln', 'Während der Arbeit', 'Noch offen'] },
+  { id: 'verwaltung', type: 'checkbox', title: 'Was braucht die Verwaltung im Browser?',
+    options: ['Freigabe der Zeiten durch Teamleitung', 'Überstundenkonto', 'Auswertungen und Export (Excel, PDF)', 'Login mit Microsoft 365 oder Google', 'Schnittstelle (API) zu eigenen Systemen'], other: 'Sonstiges' },
+  { id: 'br', type: 'radio', title: 'Gibt es einen Betriebsrat?', options: ['Ja', 'Nein'] },
+  { id: 'budget', type: 'radio', title: 'Budget je Mitarbeitendem und Monat (netto)?',
+    options: ['bis 3 €', '3 bis 6 €', '6 bis 10 €', 'über 10 €', 'Noch offen'] },
+  { id: 'start', type: 'radio', title: 'Wann soll es losgehen?',
+    options: ['So schnell wie möglich', 'In den nächsten 3 Monaten', 'Im Laufe von 2027', 'Noch offen'] },
+  { id: 'bisher', type: 'checkbox', title: 'Was nutzen Sie heute oder haben Sie schon angefragt?',
+    options: ['Papier oder Excel', 'Stempeluhr', 'clockin', 'Personio', 'TimeTac', 'ZEP', 'Clockodo', 'Crewmeister'], other: 'Andere Anbieter oder Angebote' },
+  { id: 'notiz', type: 'textarea', title: 'Was ist Ihnen sonst noch wichtig?', placeholder: 'Freitext, gern auch Stichworte' }
+];
+
+const form = document.getElementById('form');
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+QUESTIONS.forEach((q, i) => {
+  const card = document.createElement('section');
+  card.className = 'card'; card.dataset.q = q.id;
+  let html = `<div class="qhead"><span class="num">${i + 1}</span><div class="qtitle">${esc(q.title)}${q.type === 'checkbox' ? ' <span class="multi-tag">Mehrfachauswahl</span>' : ''}</div></div>`;
+  if (q.hint) html += `<p class="hint">${esc(q.hint)}</p>`;
+  if (q.info) html += `<details><summary>Kurz erklärt</summary><div>${esc(q.info)}</div></details>`;
+  if (q.options) {
+    html += '<div class="opts">' + q.options.map((o, k) =>
+      `<label class="opt" data-type="${q.type}"><input type="${q.type}" name="${q.id}" value="${esc(o)}"><span class="mark"></span><span>${esc(o)}</span></label>`
+    ).join('') + '</div>';
+  }
+  if (q.other) html += `<input type="text" name="${q.id}__other" placeholder="${esc(q.other)} (optional)">`;
+  if (q.type === 'text') html += `<input type="text" name="${q.id}" placeholder="${esc(q.placeholder || '')}">`;
+  if (q.type === 'textarea') html += `<textarea name="${q.id}" rows="3" placeholder="${esc(q.placeholder || '')}"></textarea>`;
+  card.innerHTML = html;
+  form.appendChild(card);
+});
+
+function answers() {
+  const fd = new FormData(form);
+  return QUESTIONS.map(q => {
+    const vals = q.options ? fd.getAll(q.id) : [];
+    if (!q.options) { const v = (fd.get(q.id) || '').trim(); if (v) vals.push(v); }
+    const other = (fd.get(q.id + '__other') || '').trim();
+    if (other) vals.push((q.other || 'Sonstiges') + ': ' + other);
+    return { q, vals };
+  });
+}
+
+function summaryText() {
+  const lines = ['*' + TITLE + '*', ''];
+  answers().forEach(({ q, vals }, i) => {
+    lines.push(`${i + 1}. ${q.title}`);
+    lines.push('   → ' + (vals.length ? vals.join(', ') : '–'));
+  });
+  return lines.join('\n');
+}
+
+const toastEl = document.getElementById('toast');
+function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); setTimeout(() => toastEl.classList.remove('show'), 1800); }
+
+function update() {
+  form.querySelectorAll('.opt').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  const list = answers();
+  let done = 0;
+  list.forEach(({ q, vals }) => {
+    const card = form.querySelector(`[data-q="${q.id}"]`);
+    card.classList.toggle('done', vals.length > 0);
+    if (vals.length) done++;
+  });
+  document.getElementById('progressText').textContent = `${done} von ${list.length} beantwortet`;
+  document.getElementById('fill').style.width = (done / list.length * 100) + '%';
+  const text = summaryText();
+  document.getElementById('summary').textContent = text;
+  const base = WA_NUMBER ? `https://wa.me/${WA_NUMBER}` : 'https://wa.me/';
+  document.getElementById('waBtn').href = `${base}?text=${encodeURIComponent(text)}`;
+  save();
+}
+
+// Entwurf im Browser merken, falls die Seite versehentlich geschlossen wird
+const KEY = 'fragebogen-zeiterfassung-v1';
+function save() {
+  try {
+    const data = {};
+    new FormData(form).forEach((v, k) => { (data[k] = data[k] || []).push(v); });
+    localStorage.setItem(KEY, JSON.stringify(data));
+  } catch (e) {}
+}
+function restore() {
+  try {
+    const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+    Object.entries(data).forEach(([k, vals]) => {
+      form.querySelectorAll(`[name="${CSS.escape(k)}"]`).forEach(el => {
+        if (el.type === 'radio' || el.type === 'checkbox') el.checked = vals.includes(el.value);
+        else el.value = vals[0] || '';
+      });
+    });
+  } catch (e) {}
+}
+
+form.addEventListener('input', update);
+form.addEventListener('change', update);
+// Radio: erneutes Antippen hebt die Auswahl auf
+form.addEventListener('click', e => {
+  const inp = e.target.closest('.opt')?.querySelector('input[type="radio"]');
+  if (!inp) return;
+  if (inp.checked && inp.dataset.was === '1') { e.preventDefault(); inp.checked = false; inp.dataset.was = '0'; update(); return; }
+  form.querySelectorAll(`input[name="${inp.name}"]`).forEach(r => r.dataset.was = '0');
+  setTimeout(() => { inp.dataset.was = inp.checked ? '1' : '0'; }, 0);
+});
+
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const text = summaryText();
+  if (navigator.share) {
+    try { await navigator.share({ title: TITLE, text }); } catch (e) {}
+  } else {
+    location.href = 'mailto:?subject=' + encodeURIComponent(TITLE) + '&body=' + encodeURIComponent(text);
+  }
+});
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = summaryText();
+  try { await navigator.clipboard.writeText(text); toast('Kopiert'); }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Kopiert'); } catch (_) { toast('Bitte Text markieren und kopieren'); }
+    ta.remove();
+  }
+});
+
+// Dunkelmodus: Systemeinstellung als Vorgabe, Schalter überschreibt
+const dark = document.getElementById('dark');
+function setTheme(d) { document.documentElement.dataset.theme = d ? 'dark' : 'light'; dark.checked = d; }
+let stored = null; try { stored = localStorage.getItem(KEY + '-theme'); } catch (e) {}
+setTheme(stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+dark.addEventListener('change', () => { setTheme(dark.checked); try { localStorage.setItem(KEY + '-theme', dark.checked ? 'dark' : 'light'); } catch (e) {} });
+
+// Karten beim Scrollen einblenden
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { threshold: .08 }) : null;
+document.querySelectorAll('.card').forEach(c => io ? io.observe(c) : c.classList.add('in'));
+
+restore();
+update();
+</script>
+</body>
+</html>
