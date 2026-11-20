@@ -10,114 +10,190 @@
 <style>
 :root{
   --bg:#f6ecd6; --paper:#fffaf0; --ink:#3b2a1a; --muted:#7a6248; --gold:#c8961a; --gold2:#f0c64a;
-  --berry:#8c2f39; --green:#2f6b3a; --line:#e2cfa6; --shadow:0 6px 20px rgba(80,50,10,.15);
+  --berry:#8c2f39; --green:#2f6b3a; --line:#e2cfa6; --tile:#f3e6c8; --shadow:0 6px 20px rgba(80,50,10,.15);
 }
 :root[data-theme="dark"]{
-  --bg:#1d1712; --paper:#2a221a; --ink:#f3e6cf; --muted:#c2a984; --line:#4a3b2a; --shadow:0 6px 20px rgba(0,0,0,.5);
+  --bg:#1d1712; --paper:#2a221a; --ink:#f3e6cf; --muted:#c2a984; --line:#4a3b2a; --tile:#3a2f22; --shadow:0 6px 20px rgba(0,0,0,.5);
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.45}
-body{overflow-wrap:anywhere;padding:0 16px calc(90px + env(safe-area-inset-bottom))}
-header{display:flex;align-items:center;gap:10px;padding:14px 0 8px;position:sticky;top:0;background:var(--bg);z-index:5}
-#logo{width:44px;height:44px;flex:none;cursor:pointer;-webkit-user-select:none;user-select:none}
-header h1{font-size:19px;margin:0;line-height:1.15}
-header small{display:block;color:var(--muted);font-weight:normal;font-size:13px}
-#themeBtn{margin-left:auto;background:none;border:1px solid var(--line);border-radius:10px;font-size:18px;padding:4px 8px;color:var(--ink)}
-.keys{display:flex;gap:6px;margin:4px 0 10px}
-.keys span{flex:1;text-align:center;border:2px dashed var(--line);border-radius:12px;padding:4px 0;font-size:22px;opacity:.35;transition:.4s}
-.keys span.got{opacity:1;border-style:solid;border-color:var(--gold);background:linear-gradient(135deg,#fff3c4,#f0c64a33)}
-.danger{margin:0 0 12px;font-size:13px;color:var(--muted)}
-.danger .bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:3px}
-.danger .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e8a33d,var(--berry));transition:width 1s}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--shadow);animation:pop .4s ease}
-@keyframes pop{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
-.card h2{margin:0 0 8px;font-size:21px;color:var(--berry)}
-:root[data-theme="dark"] .card h2{color:var(--gold2)}
-.msg{display:flex;gap:10px;margin:10px 0;align-items:flex-start}
-.msg .av{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:22px;border:2px solid var(--gold)}
-.msg .bub{background:var(--bg);border-radius:4px 16px 16px 16px;padding:8px 12px;flex:1}
-.msg .who{font-size:12px;font-weight:bold;color:var(--muted)}
-.letter{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;background:#f3e2b8;color:#3b2a1a;border-radius:6px;padding:14px;transform:rotate(-.6deg);box-shadow:inset 0 0 30px rgba(120,80,20,.25)}
-.roles{display:grid;gap:6px;margin:10px 0}
-.roles div{background:var(--bg);border-radius:12px;padding:8px 10px;font-size:16px}
-.roles b{color:var(--berry)}
-:root[data-theme="dark"] .roles b{color:var(--gold2)}
-button.big{display:block;width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;font-size:19px;font-weight:bold;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8a6510;font-family:inherit}
-button.big:active{transform:translateY(2px);box-shadow:0 1px 0 #8a6510}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.4}
+body{overflow-wrap:anywhere;padding:0 14px calc(40px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;gap:10px;padding:12px 0 6px;position:sticky;top:0;background:var(--bg);z-index:5}
+#logo{width:42px;height:42px;flex:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+header h1{font-size:18px;margin:0;line-height:1.1}
+header small{display:block;color:var(--muted);font-weight:normal;font-size:12px}
+#themeBtn{margin-left:auto;background:none;border:1px solid var(--line);border-radius:10px;font-size:17px;padding:4px 8px;color:var(--ink)}
+.keys{display:flex;gap:6px;margin:2px 0 6px}
+.keys span{flex:1;text-align:center;border:2px dashed var(--line);border-radius:12px;padding:3px 0;font-size:20px;opacity:.35;transition:.4s}
+.keys span.got{opacity:1;border-style:solid;border-color:var(--gold);background:linear-gradient(135deg,#fff3c4,#f0c64a33);animation:keyIn .6s ease}
+.keys span.stolen{opacity:1;border-style:solid;border-color:var(--berry);background:#f7d6d6;animation:shake .4s 3}
+@keyframes keyIn{40%{transform:scale(1.25) rotate(-8deg)}}
+.danger{margin:0 0 8px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.danger .bar{flex:1;height:9px;border-radius:6px;background:var(--line);overflow:hidden}
+.danger .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e8a33d,var(--berry));transition:width 1.2s}
+.rolebar{display:flex;gap:6px;margin:0 0 4px;font-size:12.5px}
+.rolebar span{flex:1;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rolebar b{display:flex;align-items:center;justify-content:center;gap:4px;font-size:13.5px}
+.pav{font-style:normal;line-height:1;display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;flex:none;background:var(--tile);border:2px solid var(--gold);vertical-align:middle}
+.pav img{width:100%;height:100%;object-fit:cover}
+.nrow{display:flex;align-items:center;gap:10px;margin:6px 0}
+.nrow input[type=text]{margin:0}
+.camb{position:relative;width:64px;height:64px;flex:none;border-radius:50%;border:0;padding:0;background:none}
+.camb .pav{width:64px;height:64px;font-size:28px}
+.camb>i:not(.pav){position:absolute;right:-2px;bottom:-2px;font-style:normal;font-size:16px;background:var(--paper);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.names .hm{display:flex;flex-direction:column;align-items:center;gap:4px;animation:pop .5s ease both}
+.names .hm .pav{width:84px;height:84px;font-size:38px;border-width:3px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0;box-shadow:var(--shadow);animation:pop .45s ease both}
+@keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.ttl{display:flex;align-items:center;gap:10px;margin:0 0 6px}
+.ttl .ic{font-size:34px;line-height:1}
+.ttl h2{margin:0;font-size:22px;color:var(--berry);line-height:1.15}
+:root[data-theme="dark"] .ttl h2{color:var(--gold2)}
+.sub{color:var(--muted);font-size:15px;margin:0 0 6px}
+button{font-family:inherit}
+button.big{display:block;width:100%;margin-top:12px;padding:15px;border:0;border-radius:16px;font-size:20px;font-weight:bold;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 4px 0 #8a6510}
+button.big:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6510}
+button.big.pulse{animation:btnPulse 1.6s ease-in-out infinite}
+@keyframes btnPulse{50%{box-shadow:0 4px 0 #8a6510,0 0 0 8px rgba(240,198,74,.35)}}
 button.sec{background:var(--bg);color:var(--ink);box-shadow:none;border:1px solid var(--line);font-size:16px;padding:11px}
 input[type=text],input[type=number],textarea{width:100%;font-size:18px;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:inherit;margin:4px 0}
-.radar{text-align:center;padding:10px 0;-webkit-user-select:none;user-select:none}
-.radar .dist{font-size:46px;font-weight:bold;line-height:1}
-.radar .temp{font-size:24px;margin-top:6px}
-.radar .trend{color:var(--muted);font-size:15px;min-height:20px}
-.radar .ring{width:150px;height:150px;margin:6px auto;border-radius:50%;display:grid;place-items:center;font-size:56px;background:radial-gradient(circle,var(--paper) 40%,transparent 41%),conic-gradient(from 0deg,#5aa0e0,#e8a33d,#d9412b,#5aa0e0);animation:spin 6s linear infinite}
+/* Sprachnachricht */
+.vc{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:18px;padding:8px;margin:8px 0;border:2px solid transparent;transition:border-color .3s}
+.vc.playing{border-color:var(--green)}
+.vc.wait{animation:vcWait 1.2s ease-in-out infinite}
+@keyframes vcWait{50%{border-color:var(--gold2);transform:scale(1.02)}}
+.vc .av{width:50px;height:50px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:28px;border:3px solid var(--gold);background:var(--paper)}
+.vc .mid{flex:1;min-width:0}
+.vc .who{font-size:13px;font-weight:bold;color:var(--muted)}
+.wave{display:flex;align-items:center;gap:3px;height:28px}
+.wave i{flex:1;background:var(--green);border-radius:3px;opacity:.55;transform-origin:center}
+.vc.playing .wave i{animation:wv .8s ease-in-out infinite;opacity:1}
+@keyframes wv{50%{transform:scaleY(.3)}}
+.vc .play{width:58px;height:58px;border-radius:50%;border:0;flex:none;font-size:24px;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8a6510}
+details.vt{font-size:14px;color:var(--muted);margin:-2px 4px 6px}
+details.vt summary{cursor:pointer;list-style:none;font-size:13px}
+details.vt summary::-webkit-details-marker{display:none}
+/* Radar */
+.radar{text-align:center;padding:4px 0;-webkit-user-select:none;user-select:none}
+.radar .ring{width:170px;height:170px;margin:4px auto;border-radius:50%;display:grid;place-items:center;font-size:64px;background:radial-gradient(circle,var(--paper) 42%,transparent 43%),conic-gradient(from 0deg,#5aa0e0,#e8a33d,#d9412b,#5aa0e0);animation:spin 6s linear infinite}
+.radar .ring.off{background:radial-gradient(circle,var(--paper) 42%,transparent 43%),repeating-conic-gradient(#bbb 0 10deg,#888 10deg 20deg);animation:spin 1.5s steps(6) infinite}
 @keyframes spin{to{filter:hue-rotate(360deg)}}
-.cipher{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:34px;margin:10px 0}
-.cipher span{background:var(--bg);border-radius:10px;padding:2px 6px}
-.legend{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;font-size:15px;margin-top:8px}
-.legend div{background:var(--bg);border-radius:8px;text-align:center;padding:3px 0}
-.opts{display:grid;gap:8px;margin-top:8px}
-.opts button{padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);font-size:17px;text-align:left;color:var(--ink);font-family:inherit}
-.opts button.ok{border-color:var(--green);background:#d9f0dc;color:#1d3d22}
-.opts button.no{border-color:var(--berry);animation:shake .4s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.symgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.symgrid button{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px;font-family:inherit;color:var(--ink)}
-.symgrid svg{width:70px;height:70px}
-.keysvg{display:block;margin:6px auto;width:100%;max-width:330px;transition:transform .6s}
-.keysvg.zoom{transform:scale(2.2) translateX(-12%)}
-.hintimg{width:100%;border-radius:12px;margin-top:8px}
-.note{font-size:14px;color:var(--muted)}
-.alarm{border:3px solid var(--berry);animation:pulse 1s ease 3}
-@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(140,47,57,.25)}}
+.radar .dist{font-size:54px;font-weight:bold;line-height:1}
+.radar .temp{font-size:26px;margin-top:4px;font-weight:bold}
+.radar .trend{font-size:30px;min-height:36px}
+.note{font-size:13px;color:var(--muted)}
+/* Kacheln */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.tiles.two{grid-template-columns:1fr 1fr}
+.tile{border:2.5px solid var(--line);background:var(--tile);color:var(--ink);border-radius:16px;padding:10px 4px;font-size:18px;font-weight:bold;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .15s,border-color .2s,background .2s}
+.tile:active{transform:scale(.95)}
+.tile .em{font-size:38px;line-height:1.1}
+.tile small{font-size:13px;font-weight:normal}
+.tile.ok{border-color:var(--green);background:#d9f0dc;color:#1d3d22;animation:okPop .4s ease}
+.tile.no{border-color:var(--berry);animation:shake .4s}
+.tile.dim{opacity:.35}
+.tile svg{width:100%;max-width:120px;height:auto}
+@keyframes okPop{50%{transform:scale(1.08)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.shake{animation:shake .4s}
+/* Geheimschrift */
+.slots{display:flex;justify-content:center;gap:6px;margin:8px 0}
+.slot{width:44px;text-align:center}
+.slot .e{font-size:32px;display:block}
+.slot .l{display:block;height:40px;border-bottom:3px solid var(--gold);font-size:28px;font-weight:bold;line-height:40px}
+.slot.cur .l{border-color:var(--berry);animation:blink 1s infinite}
+@keyframes blink{50%{border-color:transparent}}
+.legend{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:8px 0}
+.legend div{background:var(--bg);border-radius:10px;text-align:center;padding:2px 0;font-size:22px;line-height:1.15}
+.legend b{display:block;font-size:15px}
+.kb{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
+.kb button{padding:10px 0;border-radius:10px;border:2px solid var(--line);background:var(--tile);color:var(--ink);font-size:20px;font-weight:bold}
+.kb button:active{transform:scale(.92)}
+/* Bilder */
+.hintimg{width:100%;border-radius:14px;margin-top:8px;max-height:46vh;object-fit:cover}
+.hint{font-size:21px;font-weight:bold;text-align:center;margin:8px 0}
+.bigem{font-size:70px;text-align:center;line-height:1.1;margin:6px 0}
+.horse{display:block;margin:0 auto;width:72%;max-width:260px}
+.horse.run{animation:bob .45s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-2deg)}}
+.alarm{border:3px solid var(--berry);animation:alarm 1s ease-in-out infinite}
+@keyframes alarm{50%{box-shadow:0 0 0 10px rgba(140,47,57,.25);background:#f9e1e1}}
+:root[data-theme="dark"] .alarm{animation:alarmD 1s ease-in-out infinite}
+@keyframes alarmD{50%{box-shadow:0 0 0 10px rgba(200,60,60,.3);background:#3a1f1f}}
+.bubble{background:var(--bg);border-radius:6px 18px 18px 18px;padding:12px;font-size:19px;margin:6px 0}
+.steps3 .tile{flex-direction:row;justify-content:flex-start;gap:12px;padding:12px;text-align:left;font-size:19px}
+.steps3{display:grid;gap:8px;margin-top:10px}
+.locks{display:flex;justify-content:space-around;margin:14px 0}
+.locks button{background:none;border:0;padding:0}
+.locks svg{width:84px;height:110px}
+.locks .sh{transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.locks button.open .sh{transform:translateY(-14px) rotate(-18deg);transform-origin:70% 100%}
+.names{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.names .hm span{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#3b2a1a;border-radius:20px;padding:6px 14px;font-weight:bold}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
 #admin{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none;overflow:auto;padding:20px 16px}
-#admin .card{margin:0 auto;max-width:520px}
+#admin .card{margin:0 auto;max-width:520px;animation:none}
 #admin h3{margin:16px 0 4px;font-size:17px}
 #admin label{font-size:14px;color:var(--muted)}
 .row{display:flex;gap:8px}
 .row>*{flex:1}
 .ok-txt{color:var(--green);font-weight:bold}
 .bad-txt{color:var(--berry);font-weight:bold}
-.shake{animation:shake .4s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
 <body>
 <header>
   <svg id="logo" viewBox="0 0 64 64" aria-label="Horse Club"><circle cx="32" cy="32" r="30" fill="#8c2f39"/><path d="M20 46 C18 30 22 22 30 16 L34 12 L36 18 C44 20 48 28 46 36 L40 34 L38 46 Z" fill="#f0c64a"/><circle cx="37" cy="24" r="2" fill="#8c2f39"/></svg>
-  <h1>Horse Club<small>Die goldenen Schlüssel · Ein neuer Fall</small></h1>
+  <h1>Horse Club<small>Die goldenen Schlüssel</small></h1>
   <button id="themeBtn" aria-label="Hell/Dunkel">🌙</button>
 </header>
 <div class="keys"><span id="k1">🔑</span><span id="k2">🔑</span><span id="k3">🔑</span></div>
-<div class="danger" id="dangerBox" hidden>Mr. Michaels’ Plan: <span id="dangerPct">0</span> %<div class="bar"><i id="dangerBar"></i></div></div>
+<div class="danger" id="dangerBox" hidden>🎩<div class="bar"><i id="dangerBar"></i></div><span id="dangerPct">0 %</span></div>
+<div class="rolebar" id="rolebar" hidden></div>
 <main id="app"></main>
 <canvas id="confetti"></canvas>
-
 <div id="admin"><div class="card" id="adminCard"></div></div>
 
 <script>
 "use strict";
 /* ============ Speicher ============ */
-const LS_CFG="hc_cfg_v1", LS_ST="hc_state_v1", PIN="7531";
+const LS_CFG="hc_cfg_v2", LS_ST="hc_state_v2", PIN="7531";
 const store={
   get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){alertBox("Speichern fehlgeschlagen (Speicher voll?)")}}
 };
+const PKEYS=["eingang","huegel","spinne","baum","home"];
 const DEFAULT_CFG={
   radius:30,
-  word:"SOFA",           // Geheimwort = Versteck von Schlüssel 1 zu Hause
-  wordHint:"",           // optionaler Zusatz, wird nach dem Lösen gezeigt
-  chestPlace:"im Wohnzimmer hinter dem Sofa", // wo die Kiste steht
+  word:"WURZEL",
+  chestPlace:"im großen Baum am Teich",
+  bday:"",
   points:{
-    huegel:{name:"Der Aussichtshügel",lat:null,lon:null,hint:"Schaut euch oben genau um: das Versteck ist …",photo:null},
-    baum:{name:"Der Schatzbaum am See",lat:null,lon:null,hint:"Sucht den Baum mit dem Zeichen. Der Schlüssel liegt …",photo:null},
-    home:{name:"Zuhause",lat:null,lon:null,hint:"",photo:null}
+    eingang:{name:"Großer Baum am Parkeingang",icon:"🌳",lat:null,lon:null,hint:"Zwischen den Wurzeln!",photo:null},
+    huegel:{name:"Der Hügel",icon:"⛰️",lat:null,lon:null,hint:"Ganz oben …",photo:null},
+    spinne:{name:"Die Kletterspinne",icon:"🕷️",lat:null,lon:null,hint:"Ganz oben im Netz!",photo:null},
+    baum:{name:"Großer Baum am Teich",icon:"🌳",lat:null,lon:null,hint:"Schaut nach oben!",photo:null},
+    home:{name:"Hauptquartier (zu Hause)",icon:"🏠",lat:null,lon:null,hint:"",photo:null}
   }
 };
-let cfg=Object.assign({},DEFAULT_CFG,store.get(LS_CFG,{}));
-cfg.points=Object.assign({},DEFAULT_CFG.points,cfg.points||{});
-let st=store.get(LS_ST,{step:0,names:[],keys:[false,false,false],start:null,quiz:0});
+function loadCfg(){
+  let c=store.get(LS_CFG,null);
+  if(!c){ // Übernahme aus der ersten Fassung (Hügel, Zuhause, Radius, Geburtstagskind)
+    const o=store.get("hc_cfg_v1",null);c={};
+    if(o){c.radius=o.radius;c.bday=o.bday;c.points={};
+      if(o.points&&o.points.huegel&&o.points.huegel.lat!=null)c.points.huegel={lat:o.points.huegel.lat,lon:o.points.huegel.lon,photo:o.points.huegel.photo||null};
+      if(o.points&&o.points.home&&o.points.home.lat!=null)c.points.home={lat:o.points.home.lat,lon:o.points.home.lon}}
+  }
+  const r=Object.assign({},DEFAULT_CFG,c);r.points={};
+  for(const k of PKEYS)r.points[k]=Object.assign({},DEFAULT_CFG.points[k],(c.points||{})[k]||{});
+  return r;
+}
+let cfg=loadCfg();
+const ST0=()=>({step:0,names:[],keys:[0,0,0],quiz:0,heard:{},d0:null});
+let st=Object.assign(ST0(),store.get(LS_ST,{}));
 const saveCfg=()=>store.set(LS_CFG,cfg), saveSt=()=>store.set(LS_ST,st);
+let pics=store.get("hc_pics_v2",[null,null,null]);const savePics=()=>store.set("hc_pics_v2",pics);
 
 /* Import der Einrichtung per Link: …/#cfg=… */
 (function(){
@@ -125,8 +201,8 @@ const saveCfg=()=>store.set(LS_CFG,cfg), saveSt=()=>store.set(LS_ST,st);
   if(!m)return;
   try{
     const imp=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
-    for(const k of ["radius","word","wordHint","chestPlace","bday"]) if(imp[k]!==undefined) cfg[k]=imp[k];
-    if(imp.points) for(const p in imp.points){cfg.points[p]=Object.assign({},cfg.points[p]||{},imp.points[p],{photo:(cfg.points[p]||{}).photo||null})}
+    for(const k of ["radius","word","chestPlace","bday"]) if(imp[k]!==undefined) cfg[k]=imp[k];
+    if(imp.points) for(const p in imp.points){if(!cfg.points[p])continue;cfg.points[p]=Object.assign({},cfg.points[p],imp.points[p],{photo:cfg.points[p].photo||null})}
     saveCfg();
     history.replaceState(null,"",location.pathname);
     setTimeout(()=>alertBox("Einrichtung übernommen ✔"),300);
@@ -138,260 +214,330 @@ const $=s=>document.querySelector(s);
 const app=$("#app");
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const N=i=>esc(st.names[i]||["Mädchen 1","Mädchen 2","Mädchen 3"][i]);
-const CHAR={
-  hannah:{n:"Hannah",av:"🤠",c:"#e8a33d"},
-  lisa:{n:"Lisa",av:"🏆",c:"#333"},
-  sarah:{n:"Sarah",av:"📖",c:"#d4b04a"},
-  sophia:{n:"Sophia",av:"🎨",c:"#d77fa1"},
-  funk:{n:"Abgefangener Funkspruch",av:"📻",c:"#8c2f39"},
-  spion:{n:"Der kleine Spion",av:"🕵️",c:"#555"}
-};
-function msg(who,text){const c=CHAR[who];return `<div class="msg"><div class="av" style="background:${c.c}22">${c.av}</div><div class="bub"><div class="who">${c.n}</div>${text}</div></div>`}
-function roles(){
-  // Rollen wechseln je Kapitel
-  const r=["🗺️ Kartenleserin – hält das Handy und führt","🧩 Rätselmeisterin – liest vor und löst Rätsel","🔑 Schlüsselhüterin – sucht Verstecke, verwahrt die Schlüssel"];
-  const off=st.step%3;
-  return `<div class="roles">${[0,1,2].map(i=>`<div><b>${N((i+off)%3)}</b>: ${r[i]}</div>`).join("")}</div>`;
-}
-function beep(f=880,d=.15){try{const a=new (window.AudioContext||window.webkitAudioContext)();const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.2,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.start();o.stop(a.currentTime+d)}catch(e){}}
+const HEARTS=["🧡","💗","💙"];
+function av(i,px){return `<i class="pav" style="width:${px}px;height:${px}px;font-size:${Math.round(px*.5)}px">${pics[i]?`<img src="${pics[i]}" alt="">`:HEARTS[i]}</i>`}
+/* Foto quadratisch zuschneiden und verkleinern (nur auf diesem Handy gespeichert) */
+function takePic(file,cb){const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const m=Math.min(img.width,img.height),cv=document.createElement("canvas");cv.width=cv.height=240;
+  cv.getContext("2d").drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,240,240);URL.revokeObjectURL(u);cb(cv.toDataURL("image/jpeg",.75))};img.src=u}
+function beep(f=880,d=.15){try{const a=window._ac||(window._ac=new (window.AudioContext||window.webkitAudioContext)());const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.18,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.start();o.stop(a.currentTime+d)}catch(e){}}
 function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*160))}
+const okSnd=()=>beep(990), noSnd=()=>beep(220,.3);
 function alertBox(t){const d=document.createElement("div");d.className="card";d.style.cssText="position:fixed;left:16px;right:16px;bottom:20px;z-index:60";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
 function go(step){st.step=step;saveSt();render();window.scrollTo({top:0,behavior:"smooth"})}
-function updKeys(){st.keys.forEach((k,i)=>$("#k"+(i+1)).classList.toggle("got",!!k))}
-function gotKey(i){st.keys[i]=true;saveSt();updKeys();fanfare()}
+function shake(el){el.classList.remove("no","shake");void el.offsetWidth;el.classList.add(el.classList.contains("tile")?"no":"shake")}
+const ttl=(ic,h)=>`<div class="ttl"><span class="ic">${ic}</span><h2>${h}</h2></div>`;
 
-/* Gefahrenleiste: steigt mit der Zeit, erreicht nie 100 % */
-function danger(){
-  const box=$("#dangerBox");
-  if(!st.start||st.step>=10){box.hidden=true;return}
-  box.hidden=false;
-  const min=(Date.now()-st.start)/60000;
-  let p=Math.min(95,Math.round(15+min*1.1+st.step*4));
-  $("#dangerPct").textContent=p;$("#dangerBar").style.width=p+"%";
+/* Schlüssel: 0 fehlt, 1 da, 2 geklaut */
+function updKeys(){st.keys.forEach((k,i)=>{const e=$("#k"+(i+1));e.className=k===1?"got":k===2?"stolen":"";e.textContent=k===2?"❓":"🔑"})}
+function gotKey(i){st.keys[i]=1;saveSt();updKeys();fanfare()}
+
+/* Plan-Balken je Schritt */
+const PLAN=[0,15,25,30,30,35,40,45,65,65,70,75,75,95,95,50,40,30,15,5,0];
+function danger(){const b=$("#dangerBox");if(st.step<1||st.step>=20){b.hidden=true;return}b.hidden=false;const p=PLAN[st.step]||0;$("#dangerBar").style.width=p+"%";$("#dangerPct").textContent=p+" %"}
+/* Rollen wechseln je Station */
+const ROLES=[["🧭","Karte"],["🧩","Rätsel"],["🔑","Schlüssel"]];
+function roleOff(s){return s<5?0:s<9?1:s<12?2:s<18?0:1}
+function rolebar(){const r=$("#rolebar");if(st.step<1||st.step>=20){r.hidden=true;return}r.hidden=false;const o=roleOff(st.step);
+  r.innerHTML=ROLES.map((x,i)=>`<span>${x[0]} ${x[1]}<b>${av((i+o)%3,22)}${N((i+o)%3)}</b></span>`).join("")}
+
+/* ============ Sprachnachrichten ============ */
+const CHAR={
+  hannah:{n:"Hannah",av:"🤠"}, lisa:{n:"Lisa",av:"🏆"}, sarah:{n:"Sarah",av:"📖"}, sophia:{n:"Sophia",av:"🎨"},
+  funk:{n:"Funkzentrale",av:"📻"}, michaels:{n:"Mr. Michaels",av:"🎩"}, club:{n:"Der Horse Club",av:"🐴"}, spion:{n:"Agent Kurzbein",av:"🕵️"}
+};
+const VOICES={
+  v1:{f:"01_hilferuf.mp3",who:"hannah",t:"Hallo ihr drei! Hier ist Hannah vom Horse Club. Wir brauchen ganz dringend eure Hilfe! Mr. Michaels will den Peppertree-Wald kaufen und unseren Wohnwagen abreißen lassen. Aber es gibt einen alten Schutzbrief, der das verbietet. Und jetzt kommt’s: Mr. Michaels hat die Truhe mit dem Schutzbrief geklaut! Seid ihr dabei? Dann los, Abmarsch!"},
+  v2:{f:"02_lisa.mp3",who:"lisa",t:"Lisa hier. Also, hört gut zu: Die Truhe hat drei Schlösser. Die drei goldenen Schlüssel hat eine Freundin von uns rechtzeitig im Pleiser Park versteckt. Ohne die Schlüssel bekommt Mr. Michaels die Truhe nicht auf. Deshalb schickt er jetzt seinen Spion los. Ihr müsst schneller sein! Der erste Schlüssel ist beim großen Baum am Parkeingang. Folgt der Wärme-Anzeige!"},
+  v3:{f:"03_funk_alarm.mp3",who:"funk",t:"Achtung, Achtung! Hier Funkzentrale Horse Club. Wir haben eine Sichtung: Agent Kurzbein, der Spion von Mr. Michaels, ist ganz in eurer Nähe! Schlüsselhüterin, pass gut auf die Schlüssel auf!"},
+  v4:{f:"04_sarah.mp3",who:"sarah",t:"Sarah hier! Wahnsinn, ihr habt alle drei Schlüssel! Jetzt fehlt nur noch die Truhe. Aber wo hat Mr. Michaels sie versteckt? Unser Peilsender empfängt nichts. Haltet die Augen offen. Vielleicht verrät sich ja jemand."},
+  v5:{f:"05_sophia.mp3",who:"sophia",t:"Sophia hier! Ihr habt die Truhe? Unglaublich! Bringt sie schnell ins Hauptquartier, also nach Hause. Dort öffnet ihr sie gemeinsam. Und passt auf, dass sie nicht runterfällt!"},
+  v6:{f:"06_michaels.mp3",who:"michaels",t:"Hier spricht Mr. Michaels! Das kann doch nicht wahr sein! Drei Mädchen und mein eigener Spion! Na schön. Ihr habt gewonnen. Der Wald bleibt, wie er ist. Aber das nächste Mal … ach, egal."},
+  v7:{f:"07_finale.mp3",who:"club",t:"Hurra! Ihr habt es geschafft! Der Peppertree-Wald ist gerettet, und unser Wohnwagen bleibt stehen. Ab heute seid ihr Ehrenmitglieder im Horse Club! Und an das Geburtstagskind: Alles, alles Gute zum zehnten Geburtstag!"}
+};
+const AU=new Audio();AU.preload="auto";
+let curV=null, tok=0;
+function setPlaying(id,on){document.querySelectorAll(`.vc[data-v="${id}"]`).forEach(e=>{e.classList.toggle("playing",on);if(on)e.classList.remove("wait");const b=e.querySelector(".play");if(b)b.textContent=on?"❚❚":"▶"})}
+function stopV(){tok++;try{AU.pause()}catch(e){}try{speechSynthesis.cancel()}catch(e){}if(curV)setPlaying(curV,false);curV=null}
+function tts(id,my){
+  if(my!==tok)return;
+  if(!("speechSynthesis" in window)){setPlaying(id,false);curV=null;return}
+  const u=new SpeechSynthesisUtterance(VOICES[id].t);u.lang="de-DE";u.rate=1;
+  const vs=speechSynthesis.getVoices().filter(v=>/^de/i.test(v.lang));if(vs.length)u.voice=vs.find(v=>/Anna|Helena|Petra/i.test(v.name))||vs[0];
+  u.onend=()=>{if(my===tok){setPlaying(id,false);curV=null}};
+  speechSynthesis.speak(u);
 }
-setInterval(danger,15000);
+function playV(id){
+  stopV();const my=tok,v=VOICES[id];curV=id;st.heard[id]=true;saveSt();setPlaying(id,true);
+  let fell=false;const fb=()=>{if(fell||my!==tok)return;fell=true;tts(id,my)};
+  AU.onerror=fb;AU.onended=()=>{if(my===tok){setPlaying(id,false);curV=null}};
+  AU.src="audio/"+v.f;
+  const p=AU.play();
+  if(p&&p.catch)p.catch(e=>{if(e&&e.name==="NotAllowedError"){setPlaying(id,false);curV=null;document.querySelectorAll(`.vc[data-v="${id}"]`).forEach(x=>x.classList.add("wait"))}else fb()});
+}
+function voiceCard(id){
+  const v=VOICES[id],c=CHAR[v.who];
+  const bars=Array.from({length:18},(_,i)=>`<i style="height:${30+((i*37)%70)}%;animation-delay:${(i%6)*.09}s"></i>`).join("");
+  return `<div class="vc" data-v="${id}"><div class="av">${c.av}</div><div class="mid"><div class="who">${c.n}</div><div class="wave">${bars}</div></div><button class="play" data-play="${id}" aria-label="Abspielen">▶</button></div>
+  <details class="vt"><summary>📝 Text</summary>${esc(v.t)}</details>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-play]");if(!b)return;const id=b.dataset.play;if(curV===id)stopV();else playV(id)});
+// Ton nach dem ersten Tippen freischalten (iPhone)
+document.addEventListener("touchend",function unl(){try{if(window.speechSynthesis)speechSynthesis.getVoices();(window._ac||(window._ac=new (window.AudioContext||window.webkitAudioContext)())).resume()}catch(e){}document.removeEventListener("touchend",unl)},{once:true});
 
 /* ============ GPS ============ */
-let watchId=null,lastDist=null,target=null,onArrive=null,wake=null;
+let watchId=null,lastDist=null,onArrive=null,wake=null;
 function haversine(a,b,c,d){const R=6371000,t=x=>x*Math.PI/180;const dl=t(c-a),dn=t(d-b);const h=Math.sin(dl/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
-function tempWord(d){if(d<=cfg.radius)return["🔥🔥 Ihr seid da!","#d9412b"];if(d<60)return["🔥 Glühend heiß!","#d9412b"];if(d<120)return["☀️ Heiß","#e8743d"];if(d<220)return["🌤️ Warm","#e8a33d"];if(d<400)return["🌥️ Kalt","#6aa0d0"];return["❄️ Eiskalt","#3c78c0"]}
+function tempWord(d){if(d<=cfg.radius)return["🔥 Da!","#d9412b"];if(d<60)return["🔥 Glühend","#d9412b"];if(d<120)return["☀️ Heiß","#e8743d"];if(d<220)return["🌤️ Warm","#e8a33d"];if(d<400)return["🌥️ Kalt","#6aa0d0"];return["❄️ Eiskalt","#3c78c0"]}
 async function keepAwake(){try{if("wakeLock" in navigator){wake=await navigator.wakeLock.request("screen")}}catch(e){}}
-function startRadar(pointKey,cb){
-  stopRadar();
-  const p=cfg.points[pointKey];target=p;onArrive=cb;lastDist=null;
-  keepAwake();
-  if(p.lat==null){$("#radarInfo").innerHTML=`<span class="note">Für diesen Ort ist noch keine Position gespeichert. Der Spielleiter schaltet frei (lange auf die Anzeige drücken).</span>`;return}
-  if(!("geolocation" in navigator)){$("#radarInfo").textContent="GPS nicht verfügbar – der Spielleiter schaltet frei.";return}
-  watchId=navigator.geolocation.watchPosition(pos=>{
-    const d=Math.round(haversine(pos.coords.latitude,pos.coords.longitude,p.lat,p.lon));
-    const [w,col]=tempWord(d);
-    const el=$("#radarInfo");if(!el)return;
-    let trend="";
-    if(lastDist!=null){if(d<lastDist-4)trend="👍 Wärmer! Weiter so.";else if(d>lastDist+4)trend="👎 Kälter … falsche Richtung?";}
-    lastDist=d;
-    el.innerHTML=`<div class="dist">${d} m</div><div class="temp" style="color:${col}">${w}</div><div class="trend">${trend}</div><div class="note">GPS-Genauigkeit ± ${Math.round(pos.coords.accuracy)} m</div>`;
-    if(d<=cfg.radius){arrive()}
-  },err=>{
-    const el=$("#radarInfo");if(el)el.innerHTML=`<span class="note">GPS: ${esc(err.message)}. Standort in den Einstellungen erlauben (Safari → Standort) oder Spielleiter schaltet frei.</span>`;
-  },{enableHighAccuracy:true,maximumAge:2000,timeout:20000});
-}
 function stopRadar(){if(watchId!=null){navigator.geolocation.clearWatch(watchId);watchId=null}}
 function arrive(){if(!onArrive)return;const cb=onArrive;onArrive=null;stopRadar();fanfare();cb()}
-function radarCard(title,text,pointKey,next){
-  app.innerHTML=`<div class="card"><h2>${title}</h2>${text}
-  <div class="radar" id="radar"><div class="ring">🧭</div><div id="radarInfo"><div class="note">Suche GPS-Signal …</div></div></div>
-  <p class="note">Hinweis: Die Zahl zeigt, wie weit ihr noch weg seid. Wird sie kleiner, seid ihr richtig.</p></div>`;
-  // Spielleiter: 2 s auf die Anzeige drücken = ankommen
+/* radar(pointKey, next, {top, onDist}) */
+function radar(pk,next,o={}){
+  const p=cfg.points[pk];
+  app.innerHTML=`<div class="card">${ttl(p.icon,esc(p.name))}${o.top||""}
+  <div class="radar" id="radar"><div class="ring">🧭</div><div id="radarInfo"><div class="note">GPS …</div></div></div></div>`;
   let t=null;const r=$("#radar");
-  const down=()=>{t=setTimeout(()=>{arrive()},2000)},up=()=>clearTimeout(t);
+  const down=()=>{t=setTimeout(arrive,2000)},up=()=>clearTimeout(t);
   r.addEventListener("touchstart",down,{passive:true});r.addEventListener("touchend",up);r.addEventListener("mousedown",down);r.addEventListener("mouseup",up);
-  startRadar(pointKey,next);
+  stopRadar();onArrive=next;lastDist=null;keepAwake();
+  const info=$("#radarInfo");
+  if(p.lat==null){info.innerHTML=`<div class="note">Ort noch nicht gespeichert.<br>Spielleiter: 2 s auf den Kreis drücken.</div>`;return}
+  if(!("geolocation" in navigator)){info.innerHTML=`<div class="note">Kein GPS. Spielleiter: 2 s auf den Kreis drücken.</div>`;return}
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    const d=Math.round(haversine(pos.coords.latitude,pos.coords.longitude,p.lat,p.lon));
+    const [w,col]=tempWord(d);const el=$("#radarInfo");if(!el)return;
+    let tr="";if(lastDist!=null){if(d<lastDist-4)tr="👍";else if(d>lastDist+4)tr="👎";}
+    lastDist=d;
+    el.innerHTML=`<div class="dist">${d} m</div><div class="temp" style="color:${col}">${w}</div><div class="trend">${tr}</div><div class="note">± ${Math.round(pos.coords.accuracy)} m</div>`;
+    if(o.onDist)o.onDist(d);
+    if(d<=cfg.radius)arrive();
+  },err=>{const el=$("#radarInfo");if(el)el.innerHTML=`<div class="note">GPS: ${esc(err.message)}<br>Safari → Standort erlauben, oder Spielleiter: 2 s auf den Kreis.</div>`},
+  {enableHighAccuracy:true,maximumAge:2000,timeout:20000});
 }
+/* Sprachnachricht unterwegs, sobald man ein Stück gelaufen ist */
+function walkTrigger(id,meters){return d=>{if(st.heard[id])return;if(st.d0==null){st.d0=d;saveSt();return}if(st.d0-d>=meters){playV(id)}}}
+
+/* ============ Bilder ============ */
+function horseSVG(body,mane,cls,extra){
+  const s='stroke="#0000002e" stroke-width="1.2"';
+  return `<svg class="${cls||""}" viewBox="0 0 120 92"><path d="M31 40 C18 44 13 62 18 78" stroke="${mane}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  ${[36,46,74,84].map(x=>`<rect x="${x}" y="50" width="7" height="34" rx="3" fill="${body}" ${s}/><rect x="${x}" y="80" width="7" height="6" rx="2" fill="#4a3a2a"/>`).join("")}
+  <ellipse cx="59" cy="46" rx="31" ry="15" fill="${body}" ${s}/>${extra||""}
+  <path d="M76 44 L86 15 L99 19 L91 52 Z" fill="${body}" ${s}/>
+  <path d="M86 13 L109 26 Q114 31 107 34 L92 31 Z" fill="${body}" ${s}/>
+  <path d="M88 15 L90 5 L95 14Z" fill="${body}" ${s}/>
+  <path d="M86 12 C81 24 79 33 76 44" stroke="${mane}" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <circle cx="97" cy="21" r="2" fill="#222"/></svg>`;
+}
+const SYM={
+  huf:`<svg viewBox="0 0 60 60"><path d="M14 52 V30 A16 16 0 0 1 46 30 V52" fill="none" stroke="currentColor" stroke-width="7"/></svg>`,
+  baum:`<svg viewBox="0 0 60 60"><path d="M30 6 L12 30 H22 L10 44 H50 L38 30 H48 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M30 44 V56" stroke="currentColor" stroke-width="4"/></svg>`,
+  spinne:`<svg viewBox="0 0 60 60"><g stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="M24 30 L10 20 L6 10 M24 34 L8 32 L3 38 M25 38 L12 46 L10 56 M36 30 L50 20 L54 10 M36 34 L52 32 L57 38 M35 38 L48 46 L50 56"/><path d="M30 2 V18"/></g><circle cx="30" cy="36" r="9" fill="currentColor"/><circle cx="30" cy="23" r="6" fill="currentColor"/></svg>`,
+  welle:`<svg viewBox="0 0 60 60"><path d="M4 24 Q15 12 26 24 T48 24 T60 24 M4 40 Q15 28 26 40 T48 40 T60 40" fill="none" stroke="currentColor" stroke-width="3"/></svg>`
+};
+function lockSVG(col,heart){return `<svg viewBox="0 0 84 110"><path class="sh" d="M22 52 V30 A20 20 0 0 1 62 30 V52" fill="none" stroke="#9aa0a6" stroke-width="9"/><rect x="8" y="48" width="68" height="56" rx="10" fill="${col}"/>${heart?`<path d="M42 90 L28 76 A8 8 0 0 1 42 66 A8 8 0 0 1 56 76 Z" fill="#00000030"/>`:""}<circle cx="42" cy="${heart?62:76}" r="5" fill="#00000040"/></svg>`}
 
 /* ============ Geheimschrift ============ */
 const ALPHA={A:"🐴",B:"🥕",C:"🍎",D:"🌾",E:"⭐",F:"🌙",G:"🌳",H:"🏠",I:"🔑",J:"🎀",K:"🍀",L:"🦋",M:"🌸",N:"🐞",O:"☀️",P:"🐾",Q:"🍄",R:"🌈",S:"🐚",T:"🎈",U:"🐸",V:"🍓",W:"💧",X:"❄️",Y:"🦉",Z:"⚡"};
-const norm=s=>String(s||"").toUpperCase().replace(/Ä/g,"AE").replace(/Ö/g,"OE").replace(/Ü/g,"UE").replace(/ß/g,"SS").replace(/[^A-Z ]/g,"").trim();
+const norm=s=>String(s||"").toUpperCase().replace(/Ä/g,"AE").replace(/Ö/g,"OE").replace(/Ü/g,"UE").replace(/ß/g,"SS").replace(/[^A-Z]/g,"");
 
-/* ============ Quiz ============ */
-const QUIZ=[
-  {q:"Wie heißt Hannahs Pferd?",a:["Storm","Cayenne","Princess","Blossom"],r:1},
-  {q:"Wie nennt man ein Pferdebaby?",a:["Kälbchen","Fohlen","Ferkel","Zicklein"],r:1},
-  {q:"Welche drei Grundgangarten hat ein Reitpferd?",a:["Schritt, Trab, Galopp","Hüpfen, Rennen, Fliegen","Schritt, Sprint, Sprung","Trab, Tanz, Tölt"],r:0},
-  {q:"Sarahs Stute Mystery ist ein Palomino. Wie sieht ein Palomino aus?",a:["Schwarz mit weißen Punkten","Goldfarben mit heller Mähne","Ganz weiß","Braun mit schwarzer Mähne"],r:1},
-  {q:"Wie heißt das böse Mädchen, das dem Horse Club immer Ärger macht?",a:["Emily","Mia","Tori","Lisa"],r:2}
-];
-
-/* ============ Kapitel ============ */
+/* ============ Ablauf ============ */
 const steps=[];
-// 0 Start: Namen
+// 0 Namen
 steps[0]=()=>{
-  app.innerHTML=`<div class="card"><h2>🐎 Ein Hilferuf vom Horse Club</h2>
-  <p>Diese Nachricht ist nur für die drei mutigsten Pferdefreundinnen gedacht. Tragt eure Namen ein:</p>
-  <input type="text" id="n0" placeholder="Name 1" value="${esc(st.names[0]||"")}">
-  <input type="text" id="n1" placeholder="Name 2" value="${esc(st.names[1]||"")}">
-  <input type="text" id="n2" placeholder="Name 3" value="${esc(st.names[2]||"")}">
-  <button class="big" id="b">Nachricht öffnen</button></div>`;
+  app.innerHTML=`<div class="card">${ttl("🐎","Geheime Mission")}<p class="sub">📷 Foto + Name</p>
+  ${[0,1,2].map(i=>`<div class="nrow"><button class="camb" data-cam="${i}" aria-label="Foto machen">${av(i,64)}<i>📷</i></button>
+    <input type="file" accept="image/*" capture="user" id="f${i}" hidden><input type="text" id="n${i}" placeholder="Name" value="${esc(st.names[i]||"")}"></div>`).join("")}
+  <button class="big pulse" id="b">Mission annehmen</button></div>`;
+  app.querySelectorAll("[data-cam]").forEach(b=>b.onclick=()=>$("#f"+b.dataset.cam).click());
+  [0,1,2].forEach(i=>$("#f"+i).onchange=e=>{const f=e.target.files[0];if(!f)return;
+    takePic(f,d=>{pics[i]=d;savePics();const b=app.querySelector(`[data-cam="${i}"]`);b.innerHTML=av(i,64)+"<i>📷</i>";okSnd()})});
   $("#b").onclick=()=>{
     const n=[0,1,2].map(i=>$("#n"+i).value.trim());
     if(n.some(x=>!x)){alertBox("Bitte alle drei Namen eintragen.");return}
-    st.names=n;st.start=st.start||Date.now();beep(660);go(1);
+    st.names=n;go(1);playV("v1");
   };
 };
 // 1 Hilferuf
 steps[1]=()=>{
-  app.innerHTML=`<div class="card"><h2>📨 Dringend! Aus Lakeside</h2>
-  ${msg("hannah",`Hallo ${N(0)}, ${N(1)} und ${N(2)}! Wir brauchen eure Hilfe – und zwar <b>heute</b>!`)}
-  ${msg("lisa",`Mr. Michaels hat schon wieder einen fiesen Plan: Er will den <b>Peppertree-Wald</b> kaufen und unseren geheimen <b>Wohnwagen</b> abreißen lassen. 😡`)}
-  ${msg("sarah",`Aber es gibt Hoffnung! Die Mädchen, die früher im Wohnwagen waren, haben einen <b>Schutzbrief</b> versteckt. Darin steht, dass der Wald für immer den Pferden und Tieren gehört.`)}
-  ${msg("sophia",`Der Schutzbrief liegt in einer <b>Kiste mit drei Schlössern</b>. Ihr braucht alle <b>drei goldenen Schlüssel</b>. Wir sitzen leider auf einem Turnier fest … 😢`)}
-  ${msg("hannah",`Deshalb seid ihr jetzt unsere <b>Anwärterinnen</b>. Wenn ihr es schafft, werdet ihr <b>Ehrenmitglieder des Horse Club</b>! Ihr arbeitet zusammen – jede hat eine Aufgabe:`)}
-  ${roles()}
-  <p class="note">Die Aufgaben wechseln bei jedem Kapitel. Achtung: Mr. Michaels hat bestimmt Spione …</p>
-  <button class="big" id="b">Wir helfen! Hoch lebe der Horse Club! 🐴</button></div>`;
-  $("#b").onclick=()=>go(2);
+  app.innerHTML=`<div class="card">${ttl("📨","Hilferuf!")}${voiceCard("v1")}
+  <div class="bigem">🎩📦🔒🔒🔒</div>
+  <button class="big pulse" id="b">Wir helfen! 💪</button></div>`;
+  $("#b").onclick=()=>{st.d0=null;go(2)};
 };
-// 2 Geheimschrift → Schlüssel 1 zu Hause
-steps[2]=()=>{
-  const w=norm(cfg.word);
-  const enc=[...w].map(ch=>ch===" "?`<span style="background:none">&nbsp;</span>`:`<span>${ALPHA[ch]}</span>`).join("");
-  app.innerHTML=`<div class="card"><h2>🧩 Kapitel 1: Die Geheimschrift</h2>${roles()}
-  <div class="letter">Liebe Nachfolgerinnen,<br>der erste goldene Schlüssel ist ganz in eurer Nähe versteckt. Damit ihn kein Spion findet, haben wir das Versteck in unserer Pferdeschrift aufgeschrieben:</div>
-  <div class="cipher">${enc}</div>
-  <p>Entschlüsselt das Wort mit der Tabelle:</p>
-  <div class="legend">${Object.entries(ALPHA).map(([k,v])=>`<div>${v}<br><b>${k}</b></div>`).join("")}</div>
-  <input type="text" id="ans" placeholder="Lösungswort" autocomplete="off" autocapitalize="characters">
-  <button class="big" id="b">Prüfen</button><div id="res"></div></div>`;
-  $("#b").onclick=()=>{
-    if(norm($("#ans").value).replace(/ /g,"")===w.replace(/ /g,"")){
-      beep(990);
-      $("#res").innerHTML=`<p class="ok-txt">✔ Richtig! Der Schlüssel ist beim Versteck „${esc(cfg.word)}“. ${esc(cfg.wordHint)}</p>
-      <p>Schlüsselhüterin, ab zum Versteck! Habt ihr ihn?</p><button class="big" id="b2">🔑 Wir haben Schlüssel 1!</button>`;
-      $("#b2").onclick=()=>{gotKey(0);go(3)};
-    } else {$("#ans").classList.add("shake");setTimeout(()=>$("#ans").classList.remove("shake"),400);beep(220,.3)}
-  };
-};
-// 3 Auf zum Hügel
+// 2 Radar Parkeingang (+ Lisa unterwegs)
+steps[2]=()=>radar("eingang",()=>go(3),{top:voiceCard("v2"),onDist:walkTrigger("v2",150)});
+// 3 Geheimschrift
+let fill=[];
 steps[3]=()=>{
-  radarCard("🗺️ Kapitel 2: Der Aussichtshügel",
-    `${roles()}${msg("sarah",`Super, der erste Schlüssel! 🎉 Der zweite Hinweis führt euch zu einem <b>Ort, von dem man weit schauen kann</b> – so wie mit dem Teleskop auf dem Dachboden. Folgt der Wärme-Anzeige!`)}`,
-    "huegel",()=>go(4));
-};
-// 4 Hügel: Quiz → Versteck 2
-steps[4]=()=>{
-  const i=st.quiz||0;
-  if(i>=QUIZ.length){return showHide("huegel",()=>{gotKey(1);go(5)},"🔑 Wir haben Schlüssel 2!")}
-  const q=QUIZ[i];
-  app.innerHTML=`<div class="card"><h2>🔭 Oben angekommen!</h2>
-  ${i===0?msg("sophia",`Ihr seid da! Bevor wir euch das Versteck verraten, müsst ihr beweisen, dass ihr echte Pferdekennerinnen seid. Rätselmeisterin, lies vor! Wer die Antwort weiß, macht laut <b>„Summ!“</b> 🐝`):""}
-  <p class="note">Frage ${i+1} von ${QUIZ.length}</p><p><b>${q.q}</b></p>
-  <div class="opts">${q.a.map((a,j)=>`<button data-j="${j}">${esc(a)}</button>`).join("")}</div></div>`;
-  app.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{
-    if(+b.dataset.j===q.r){b.classList.add("ok");beep(990);setTimeout(()=>{st.quiz=i+1;saveSt();render()},700)}
-    else{b.classList.add("no");beep(220,.3);setTimeout(()=>b.classList.remove("no"),500)}
+  const w=norm(cfg.word)||"WURZEL";
+  const need=[...new Set(w)];
+  const others=Object.keys(ALPHA).filter(c=>!need.includes(c));
+  const extra=[];for(let i=0;extra.length<Math.max(0,12-need.length)&&i<others.length;i++){const c=others[(i*7+3)%others.length];if(!extra.includes(c))extra.push(c)}
+  const leg=[...need,...extra].sort();
+  const kb=[...leg].sort((a,b)=>((a.charCodeAt(0)*13)%17)-((b.charCodeAt(0)*13)%17));
+  const draw=()=>{
+    $("#slots").innerHTML=[...w].map((c,i)=>`<div class="slot${i===fill.length?" cur":""}"><span class="e">${ALPHA[c]}</span><span class="l">${fill[i]||""}</span></div>`).join("");
+  };
+  app.innerHTML=`<div class="card">${ttl("🧩","Geheimschrift")}
+  <div class="slots" id="slots"></div>
+  <div class="legend">${leg.map(c=>`<div>${ALPHA[c]}<b>${c}</b></div>`).join("")}</div>
+  <div class="kb">${kb.map(c=>`<button data-c="${c}">${c}</button>`).join("")}<button data-c="del">⌫</button></div></div>`;
+  fill=[];draw();
+  app.querySelectorAll(".kb button").forEach(b=>b.onclick=()=>{
+    const c=b.dataset.c;
+    if(c==="del"){fill.pop();draw();return}
+    if(fill.length>=w.length)return;
+    fill.push(c);beep(660,.06);draw();
+    if(fill.length===w.length){
+      if(fill.join("")===w){okSnd();setTimeout(()=>go(4),700)}
+      else{noSnd();shake($("#slots"));setTimeout(()=>{fill=[];draw()},600)}
+    }
   });
 };
-function showHide(pk,done,label){
+// Versteck-Seite (Hinweis + Foto + Fund-Knopf)
+function hideCard(pk,label,done){
   const p=cfg.points[pk];
-  app.innerHTML=`<div class="card"><h2>🎉 Geschafft! Das Versteck:</h2>
-  <div class="letter">${esc(p.hint)}</div>${p.photo?`<img class="hintimg" src="${p.photo}" alt="Versteck">`:""}
-  <p>Schlüsselhüterin, such ihn! Die anderen helfen.</p><button class="big" id="b">${label}</button></div>`;
+  app.innerHTML=`<div class="card">${ttl("🔎","Das Versteck")}
+  <div class="hint">${esc(p.hint)}</div>${p.photo?`<img class="hintimg" src="${p.photo}" alt="Versteck">`:`<div class="bigem">${p.icon}</div>`}
+  <button class="big pulse" id="b">${label}</button></div>`;
   $("#b").onclick=done;
 }
-// 5 Spion-Warnung
-steps[5]=()=>{
-  app.innerHTML=`<div class="card alarm"><h2>📻 Alarm!</h2>
-  ${msg("funk",`<i>… kchhh … Agent Kurzbein, hören Sie mich? … Die Mädchen haben schon <b>zwei Schlüssel</b>! … Holen Sie sie sich! … kchhh …</i>`)}
-  ${msg("lisa",`Oh nein! Mr. Michaels hat einen <b>Spion</b> losgeschickt! Er ist klein, aber schnell. Passt gut auf eure Schlüssel auf!`)}
-  ${msg("hannah",`Wenn er euch einen Schlüssel klaut: <b>fangt ihn und holt ihn zurück!</b> Der Horse Club gibt nie auf!`)}
-  <button class="big" id="b">Alle Schlüssel sind (wieder) bei uns! 💪</button></div>`;
-  $("#b").onclick=()=>go(6);
-};
-// 6 Kratzer auf dem Schlüssel
-const SYM={
-  baum:`<svg viewBox="0 0 60 60"><path d="M30 6 L12 30 H22 L10 44 H50 L38 30 H48 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M30 44 V56" stroke="currentColor" stroke-width="4"/></svg>`,
-  huf:`<svg viewBox="0 0 60 60"><path d="M14 52 V30 A16 16 0 0 1 46 30 V52" fill="none" stroke="currentColor" stroke-width="7"/></svg>`,
-  stern:`<svg viewBox="0 0 60 60"><path d="M30 5 L37 23 L56 23 L41 35 L47 54 L30 43 L13 54 L19 35 L4 23 L23 23 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>`,
-  welle:`<svg viewBox="0 0 60 60"><path d="M4 24 Q15 12 26 24 T48 24 T60 24 M4 40 Q15 28 26 40 T48 40 T60 40" fill="none" stroke="currentColor" stroke-width="3"/></svg>`
-};
+// 4 Schlüssel 1
+steps[4]=()=>hideCard("eingang","🔑 Schlüssel 1 gefunden!",()=>{gotKey(0);st.d0=null;go(5)});
+// 5 Radar Hügel
+steps[5]=()=>radar("huegel",()=>{st.quiz=0;go(6)});
+// 6 Pferde-Quiz (Bilder und Wort-Knöpfe)
+const QUIZ=[
+  {ic:"🐎",h:"Wie läuft ein Pferd?",pic:()=>horseSVG("#8b5a2b","#3a2410","horse run"),
+   tiles:[["Schritt",1],["Hüpfen",0],["Trab",1],["Fliegen",0],["Galopp",1],["Schwimmen",0]],multi:3,cls:""},
+  {ic:"💛",h:"Welches ist ein Palomino?",pic:()=>`<p class="sub" style="text-align:center">Wie Sarahs Stute Mystery</p>`,
+   tiles:[[horseSVG("#2b2b2b","#111"),0],[horseSVG("#e3b54a","#fbf3dc"),1],[horseSVG("#f4f4f2","#d8d8d8"),0],[horseSVG("#8b5a2b","#1e140b"),0]],multi:1,cls:"two"},
+  {ic:"🥕",h:"Was frisst ein Pferd?",pic:()=>"",
+   tiles:[["🥕",1],["🍫",0],["🍎",1],["🍕",0],["🌾",1],["🍭",0]],multi:3,cls:"",emoji:true}
+];
 steps[6]=()=>{
-  app.innerHTML=`<div class="card"><h2>🔍 Kapitel 3: Das Zeichen im Schlüssel</h2>${roles()}
-  ${msg("sophia",`Schaut euch den zweiten Schlüssel ganz genau an! In unserem Abenteuer waren auf einem Schlüssel <b>Kratzer</b> – und die waren in Wahrheit ein <b>Zeichen</b>! Hier ist ein Bild davon. Tippt drauf, um es zu vergrößern.`)}
-  <svg class="keysvg" id="ks" viewBox="0 0 300 110">
-    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f7dc7a"/><stop offset="1" stop-color="#b8860b"/></linearGradient></defs>
-    <circle cx="55" cy="55" r="42" fill="url(#g)" stroke="#8a6510" stroke-width="3"/><circle cx="55" cy="55" r="16" fill="var(--paper)" stroke="#8a6510" stroke-width="3"/>
-    <rect x="95" y="44" width="190" height="22" rx="4" fill="url(#g)" stroke="#8a6510" stroke-width="3"/>
-    <rect x="245" y="64" width="12" height="26" fill="url(#g)" stroke="#8a6510" stroke-width="3"/><rect x="265" y="64" width="12" height="18" fill="url(#g)" stroke="#8a6510" stroke-width="3"/>
-    <g stroke="#6b4a08" stroke-width="1.6" stroke-linecap="round" opacity=".9">
-      <path d="M170 46 L160 52 M170 46 L180 52 M164 51 L157 57 M176 51 L183 57 M157 57 L183 57 M170 57 L170 65"/>
-      <path d="M120 48 L124 50 M140 60 L146 58 M205 49 L209 47 M225 61 L229 63 M110 59 L113 62 M230 50 L233 52" opacity=".6"/>
-    </g>
-  </svg>
-  <p><b>Welches Zeichen ist in den Schlüssel geritzt?</b></p>
-  <div class="symgrid">${["huf","baum","stern","welle"].map(k=>`<button data-k="${k}">${SYM[k]}</button>`).join("")}</div><div id="res"></div></div>`;
-  $("#ks").onclick=()=>$("#ks").classList.toggle("zoom");
-  app.querySelectorAll(".symgrid button").forEach(b=>b.onclick=()=>{
-    if(b.dataset.k==="baum"){b.style.borderColor="var(--green)";beep(990);
-      $("#res").innerHTML=`${msg("sarah",`Ein <b>Baum</b>! 🌳 Auf unserer geheimen Karte gibt es nur ein einziges Baum-Zeichen: den <b>Schatzbaum am See</b>. Dort ist der dritte Schlüssel!`)}<button class="big" id="b">Auf zum Schatzbaum!</button>`;
-      $("#b").onclick=()=>go(7);
-    } else {b.classList.add("shake");beep(220,.3);setTimeout(()=>b.classList.remove("shake"),400)}
+  const i=st.quiz||0;
+  if(i>=QUIZ.length){return go(7)}
+  const q=QUIZ[i];let hits=0;
+  const order=q.tiles.map((t,j)=>j);
+  app.innerHTML=`<div class="card">${ttl(q.ic,q.h)}<p class="note">${"●".repeat(i+1)}${"○".repeat(QUIZ.length-i-1)}${q.multi>1?` · ${q.multi} richtige`:""}</p>
+  ${q.pic()}
+  <div class="tiles ${q.cls}">${order.map(j=>{const t=q.tiles[j];return `<button class="tile" data-j="${j}">${q.emoji?`<span class="em">${t[0]}</span>`:t[0]}</button>`}).join("")}</div></div>`;
+  app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{
+    if(b.classList.contains("ok"))return;
+    const t=q.tiles[+b.dataset.j];
+    if(t[1]){b.classList.add("ok");okSnd();hits++;
+      if(hits>=q.multi){app.querySelectorAll(".tile:not(.ok)").forEach(x=>x.classList.add("dim"));setTimeout(()=>{st.quiz=i+1;saveSt();render()},900)}}
+    else{noSnd();shake(b)}
   });
 };
-// 7 Radar Baum
-steps[7]=()=>{
-  radarCard("🌳 Kapitel 4: Der Schatzbaum",
-    `${roles()}${msg("lisa",`Schnell, aber passt auf den Spion auf! Folgt der Wärme-Anzeige zum See. Am Ziel sucht ihr einen Baum, der ein <b>Zeichen</b> trägt.`)}`,
-    "baum",()=>go(8));
+// 7 Schlüssel 2 → Alarm
+steps[7]=()=>hideCard("huegel","🔑 Schlüssel 2 gefunden!",()=>{gotKey(1);go(8);playV("v3")});
+// 8 Spion-Alarm
+steps[8]=()=>{
+  app.innerHTML=`<div class="card alarm">${ttl("🚨","Ein Spion!")}${voiceCard("v3")}
+  <div class="bigem">🕵️👀</div><button class="big" id="b">Weiter</button></div>`;
+  $("#b").onclick=()=>go(9);
 };
-// 8 Versteck 3
-steps[8]=()=>showHide("baum",()=>{gotKey(2);go(9)},"🔑 Wir haben Schlüssel 3!");
-// 9 Spion verletzt
+// 9 Zeichen am Schlüssel
 steps[9]=()=>{
-  app.innerHTML=`<div class="card alarm"><h2>😱 Oh nein!</h2>
-  ${msg("funk",`<i>… kchhh … Agent Kurzbein, holen Sie sich den letzten Schlüssel! Sofort! …</i>`)}
-  <p><b>Der kleine Spion ist bei der Verfolgung gestürzt!</b> Er sitzt auf dem Boden und hält sich das Bein.</p>
-  ${msg("hannah",`Wisst ihr noch? Als Tori vom Pferd gefallen ist, haben wir ihr geholfen – auch wenn sie gemein war. <b>Ein echtes Horse-Club-Mädchen lässt niemanden liegen.</b>`)}
-  <div class="roles"><div>🩹 Fragt ihn, wo es wehtut</div><div>🩹 Klebt ein Pflaster drauf</div><div>🩹 Helft ihm auf und bringt ihn zu einer Bank</div></div>
-  <button class="big" id="b">Wir haben ihm geholfen ❤️</button></div>`;
-  $("#b").onclick=()=>go(10);
+  app.innerHTML=`<div class="card">${ttl("🔍","Was hängt am Schlüssel?")}<div class="bigem">🔑❓</div>
+  <div class="tiles two">${["huf","baum","spinne","welle"].map(k=>`<button class="tile" data-k="${k}">${SYM[k]}</button>`).join("")}</div></div>`;
+  app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{
+    if(b.dataset.k==="spinne"){b.classList.add("ok");okSnd();app.querySelectorAll(".tile:not(.ok)").forEach(x=>x.classList.add("dim"));st.d0=null;setTimeout(()=>go(10),900)}
+    else{noSnd();shake(b)}
+  });
 };
-// 10 Spion wechselt die Seite
-steps[10]=()=>{
-  app.innerHTML=`<div class="card"><h2>🤝 Ein neuer Freund</h2>
-  ${msg("spion",`Danke … ihr seid ja gar nicht gemein! Mr. Michaels hat gesagt, ihr seid fies. Aber ihr habt mir geholfen. <b>Ich bin jetzt auf eurer Seite!</b>`)}
-  ${msg("spion",`Ich verrate euch ein Geheimnis: Die Kiste mit den drei Schlössern steht <b>${esc(cfg.chestPlace)}</b>!`)}
-  ${msg("sophia",`Wow, ihr habt den Spion umgedreht! 😄 Jetzt aber schnell nach Hause – Mr. Michaels darf nicht vor euch da sein!`)}
-  <button class="big" id="b">Ab nach Hause! 🏠</button></div>`;
-  $("#b").onclick=()=>go(cfg.points.home.lat!=null?11:12);
-};
-// 11 Radar Heim
-steps[11]=()=>radarCard("🏠 Kapitel 5: Zurück nach Hause",`${roles()}${msg("hannah","Die Kiste wartet! Folgt der Anzeige nach Hause.")}`,"home",()=>go(12));
-// 12 Kiste öffnen
+// 10 Radar Spinne
+steps[10]=()=>radar("spinne",()=>go(11));
+// 11 Schlüssel 3 → Sarah
+steps[11]=()=>hideCard("spinne","🔑 Schlüssel 3 gefunden!",()=>{gotKey(2);go(12);playV("v4")});
+// 12 Wo ist die Truhe? (der Spion taucht auf)
 steps[12]=()=>{
-  app.innerHTML=`<div class="card"><h2>🗝️ Das Finale: Die Kiste</h2>
-  <p>Die Kiste steht <b>${esc(cfg.chestPlace)}</b>. Jede von euch steckt <b>einen</b> goldenen Schlüssel in ein Schloss:</p>
-  <div class="roles"><div>🔑 ${N(0)} – Schloss 1</div><div>🔑 ${N(1)} – Schloss 2</div><div>🔑 ${N(2)} – Schloss 3</div></div>
-  <p class="note">Tipp: Nicht jeder Schlüssel passt in jedes Schloss. Probiert aus!</p>
-  <button class="big" id="b">Die Kiste ist offen! 🎉</button></div>`;
-  $("#b").onclick=()=>go(13);
+  app.innerHTML=`<div class="card">${ttl("📦","Wo ist die Truhe?")}${voiceCard("v4")}
+  <div class="radar"><div class="ring off">📡</div><div class="temp">??? m</div></div>
+  <div class="bigem" style="font-size:44px">👀</div>
+  <button class="big sec" id="b">🚨 Der Spion hat einen Schlüssel!</button></div>`;
+  $("#b").onclick=()=>{st.keys[2]=2;saveSt();updKeys();noSnd();go(13)};
 };
-// 13 Sieg
+// 13 Hinterher!
 steps[13]=()=>{
-  $("#dangerBox").hidden=true;
-  app.innerHTML=`<div class="card"><h2>🏆 Der Wald ist gerettet!</h2>
-  ${msg("hannah",`IHR HABT ES GESCHAFFT! 🎉 Mit dem Schutzbrief kann Mr. Michaels den Peppertree-Wald nie kaufen. Unser Wohnwagen bleibt!`)}
-  ${msg("lisa",`Ich hab ja gleich gesagt, dass ihr das schafft. Fast so schnell wie Storm und ich! 😎`)}
-  ${msg("sarah",`Ihr habt Rätsel gelöst, Schlüssel gefunden – und dem Spion geholfen, obwohl er gegen euch war. Das ist der wahre Horse-Club-Geist.`)}
-  ${msg("sophia",`Hiermit ernennen wir euch zu <b>Ehrenmitgliedern des Horse Club</b>: <b>${N(0)}, ${N(1)} und ${N(2)}</b>! 💛 Die Kekse … äh, die Süßigkeiten in der Kiste gehören euch!`)}
-  <div class="letter" style="text-align:center;font-size:22px">Hoch lebe der Horse Club! 🐴🐴🐴</div>
-  ${cfg.bday?`<p style="text-align:center;font-size:20px">🎂 Und: <b>Alles Gute zum Geburtstag, ${esc(cfg.bday)}!</b> 🎂</p>`:""}</div>`;
-  fanfare();confetti();
+  app.innerHTML=`<div class="card alarm">${ttl("🏃‍♀️","Hinterher!")}<div class="bigem">🕵️💨🔑</div>
+  <button class="big" id="b">✋ Eingeholt!</button></div>`;
+  $("#b").onclick=()=>go(14);
 };
+// 14 Er ist verletzt: helfen?
+steps[14]=()=>{
+  app.innerHTML=`<div class="card">${ttl("🤕","Aua, sein Knie!")}
+  <div class="tiles two" id="ch"><button class="tile" data-c="weg"><span class="em">🏃‍♀️💨</span>Wegrennen</button><button class="tile" data-c="hilf"><span class="em">❤️</span>Helfen</button></div>
+  <div id="help"></div></div>`;
+  app.querySelectorAll("#ch .tile").forEach(b=>b.onclick=()=>{
+    if(b.dataset.c==="weg"){noSnd();shake(b);alertBox("🐴 Der Horse Club lässt niemanden liegen!");return}
+    b.classList.add("ok");okSnd();app.querySelector('[data-c="weg"]').classList.add("dim");
+    let n=0;
+    $("#help").innerHTML=`<div class="tiles" style="margin-top:14px">${[["💬","Geht’s?"],["🩹","Pflaster"],["🤝","Aufhelfen"]].map(x=>`<button class="tile"><span class="em">${x[0]}</span><small>${x[1]}</small></button>`).join("")}</div>`;
+    $("#help").querySelectorAll(".tile").forEach(t=>t.onclick=()=>{if(t.classList.contains("ok"))return;t.classList.add("ok");okSnd();if(++n>=3){st.keys[2]=1;saveSt();updKeys();fanfare();setTimeout(()=>go(15),900)}});
+  });
+};
+// 15 Seitenwechsel
+steps[15]=()=>{
+  app.innerHTML=`<div class="card">${ttl("🤝","Ein neuer Freund")}
+  <div class="bubble">🕵️ „Danke! Ich bin jetzt auf eurer Seite! Die Truhe hängt <b>${esc(cfg.chestPlace)}</b>!“</div>
+  <div class="bigem">🌳📦</div><button class="big pulse" id="b">Los! 🏃‍♀️</button></div>`;
+  $("#b").onclick=()=>go(16);
+};
+// 16 Radar Teichbaum
+steps[16]=()=>radar("baum",()=>go(17));
+// 17 Truhe herunterlassen
+steps[17]=()=>{
+  const S=[["🪢","Knoten lösen"],["✋","Festhalten"],["⬇️","Langsam runter"]];let n=0;
+  app.innerHTML=`<div class="card">${ttl("📦","Da oben!")}<div class="steps3">${S.map((x,i)=>`<button class="tile${i?" dim":""}" data-i="${i}"><span class="em">${x[0]}</span>${i+1}. ${x[1]}</button>`).join("")}</div>
+  <button class="big" id="b" style="display:none">📦 Truhe gesichert!</button></div>`;
+  app.querySelectorAll(".steps3 .tile").forEach(t=>t.onclick=()=>{
+    if(+t.dataset.i!==n){noSnd();shake(t);return}
+    t.classList.remove("dim");t.classList.add("ok");okSnd();n++;
+    const nx=app.querySelector(`.steps3 .tile[data-i="${n}"]`);if(nx)nx.classList.remove("dim");
+    if(n>=3){const b=$("#b");b.style.display="block";b.classList.add("pulse")}
+  });
+  $("#b").onclick=()=>{st.d0=null;go(18);playV("v5")};
+};
+// 18 Heimweg (Sophia, dann Mr. Michaels unterwegs)
+steps[18]=()=>{
+  if(cfg.points.home.lat==null){
+    app.innerHTML=`<div class="card">${ttl("🏠","Ab ins Hauptquartier!")}${voiceCard("v5")}${voiceCard("v6")}<button class="big" id="b">🏠 Wir sind zu Hause!</button></div>`;
+    $("#b").onclick=()=>go(19);return;
+  }
+  radar("home",()=>go(19),{top:voiceCard("v5")+voiceCard("v6"),onDist:walkTrigger("v6",120)});
+};
+// 19 Finale: drei Schlösser
+steps[19]=()=>{
+  const L=[["#7a4fc2",0],["#c62828",1],["#11998e",0]];let n=0;
+  app.innerHTML=`<div class="card">${ttl("🔐","Drei Schlüssel, drei Schlösser")}
+  <div class="locks">${L.map((x,i)=>`<button data-i="${i}">${lockSVG(x[0],x[1])}</button>`).join("")}</div>
+  <p class="note" style="text-align:center">Schloss offen? Antippen!</p></div>`;
+  app.querySelectorAll(".locks button").forEach(b=>b.onclick=()=>{
+    if(b.classList.contains("open"))return;b.classList.add("open");okSnd();
+    if(++n>=3){fanfare();playV("v7");setTimeout(()=>go(20),900)}
+  });
+};
+// 20 Sieg
+steps[20]=()=>{
+  app.innerHTML=`<div class="card">${ttl("🏆","Wald gerettet!")}${voiceCard("v7")}
+  <div class="bigem">🐴🐴🐴</div><p class="sub" style="text-align:center">Ehrenmitglieder im Horse Club:</p>
+  <div class="names">${[0,1,2].map(i=>`<div class="hm" style="animation-delay:${i*.25}s">${av(i,84)}<span>${N(i)}</span></div>`).join("")}</div>
+  ${cfg.bday?`<p style="text-align:center;font-size:22px">🎂 <b>Alles Gute, ${esc(cfg.bday)}!</b> 🎂</p>`:""}</div>`;
+  confetti();
+};
+const STEPNAMES=["Namen","Hilferuf (V1)","→ Parkeingang (V2)","Geheimschrift","Schlüssel 1","→ Hügel","Pferde-Quiz","Schlüssel 2","Spion-Alarm (V3)","Zeichen am Schlüssel","→ Spinne","Schlüssel 3","Wo ist die Truhe? (V4)","Hinterher!","Verletzt: helfen","Seitenwechsel","→ Teichbaum","Truhe runterlassen","→ Zuhause (V5, V6)","Schlösser öffnen","Sieg (V7)"];
+const LAST=STEPNAMES.length-1;
+function keysFor(s){return [s>=5?1:0,s>=8?1:0,s>=12?(s===13||s===14?2:1):0]}
 
 /* ============ Konfetti ============ */
 function confetti(){
   const c=$("#confetti"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;
-  const P=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height,r:4+Math.random()*6,v:2+Math.random()*3,a:Math.random()*6,c:["#f0c64a","#8c2f39","#2f6b3a","#d77fa1","#5aa0e0"][Math.floor(Math.random()*5)]}));
-  let n=0;(function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.v;p.a+=.1;x.fillStyle=p.c;x.fillRect(p.x+Math.sin(p.a)*8,p.y,p.r,p.r*1.6)});if(++n<420)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
+  const P=Array.from({length:150},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height,r:4+Math.random()*6,v:2+Math.random()*3,a:Math.random()*6,c:["#f0c64a","#8c2f39","#2f6b3a","#d77fa1","#5aa0e0"][Math.floor(Math.random()*5)]}));
+  let n=0;(function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.v;p.a+=.1;x.fillStyle=p.c;x.fillRect(p.x+Math.sin(p.a)*8,p.y,p.r,p.r*1.6)});if(++n<480)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
 }
 
 /* ============ Spielleiter-Menü (5× auf das Logo tippen) ============ */
@@ -404,29 +550,28 @@ function openAdmin(unlocked){
     $("#pinOk").onclick=()=>{if($("#pin").value===PIN)openAdmin(true);else alertBox("Falsche PIN")};
     $("#close").onclick=closeAdmin;return;
   }
-  const pt=k=>{const p=cfg.points[k];return `<h3>📍 ${esc(p.name)}</h3>
+  const pt=k=>{const p=cfg.points[k];return `<h3>${p.icon} ${esc(p.name)}</h3>
     <div class="note" id="pos_${k}">${p.lat!=null?`gespeichert: ${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`:"noch keine Position"}</div>
     <button class="big sec" data-save="${k}">📍 Aktuelle Position hier speichern</button>
-    ${k!=="home"?`<label>Versteck-Hinweis (wird nach dem Rätsel gezeigt)</label><textarea id="hint_${k}" rows="2">${esc(p.hint)}</textarea>
+    ${k!=="home"?`<label>Hinweis nach dem Rätsel (kurz!)</label><input type="text" id="hint_${k}" value="${esc(p.hint)}">
     <label>Foto vom Versteck (optional, nur auf diesem Handy)</label><input type="file" accept="image/*" data-photo="${k}">
-    ${p.photo?`<img class="hintimg" src="${p.photo}" style="max-height:120px;object-fit:cover">`:""}`:""}`};
-  const stepNames=["Namen","Hilferuf","Geheimschrift (Schlüssel 1)","Weg zum Hügel","Hügel-Quiz / Versteck 2","Spion-Alarm","Zeichen im Schlüssel","Weg zum Schatzbaum","Versteck 3","Spion gestürzt","Spion hilft","Weg nach Hause","Kiste öffnen","Sieg"];
+    ${p.photo?`<img class="hintimg" src="${p.photo}" style="max-height:120px">`:""}`:""}`};
   C.innerHTML=`<h2>🛠️ Spielleiter</h2>
-  <p class="note">Aktuell: Schritt ${st.step} – ${stepNames[st.step]||""}</p>
+  <p class="note">Schritt ${st.step}: ${STEPNAMES[st.step]||""}</p>
   <div class="row"><button class="big sec" id="prev">◀ Zurück</button><button class="big sec" id="next">Weiter ▶</button></div>
-  <h3>🔤 Geheimwort (Versteck Schlüssel 1 zu Hause)</h3><input type="text" id="word" value="${esc(cfg.word)}">
-  <label>Zusatz nach dem Lösen (optional)</label><input type="text" id="wordHint" value="${esc(cfg.wordHint)}">
-  <h3>📦 Wo steht die Kiste?</h3><input type="text" id="chest" value="${esc(cfg.chestPlace)}">
-  <h3>🎂 Geburtstagskind (für die Schlussseite)</h3><input type="text" id="bday" value="${esc(cfg.bday||"")}">
+  <h3>🔊 Ton testen</h3><div class="row">${Object.keys(VOICES).map(v=>`<button class="big sec" data-play="${v}" style="padding:8px 0">${v.slice(1)}</button>`).join("")}</div>
+  <h3>🔤 Geheimwort Station 1</h3><input type="text" id="word" value="${esc(cfg.word)}">
+  <h3>📦 Satz des Spions: Die Truhe hängt …</h3><input type="text" id="chest" value="${esc(cfg.chestPlace)}">
+  <h3>🎂 Geburtstagskind (Schlussseite)</h3><input type="text" id="bday" value="${esc(cfg.bday||"")}">
   <h3>🎯 Ankunfts-Radius (Meter)</h3><input type="number" id="rad" value="${cfg.radius}">
-  ${pt("huegel")}${pt("baum")}${pt("home")}
+  ${PKEYS.map(pt).join("")}
   <button class="big" id="saveAll">💾 Alles speichern</button>
-  <h3>🔗 Einrichtung auf anderes Handy übertragen</h3><p class="note">Kopiert einen Link mit Positionen und Texten (ohne Fotos).</p>
+  <h3>🔗 Einrichtung auf anderes Handy übertragen</h3><p class="note">Link mit Positionen und Texten (ohne Fotos).</p>
   <button class="big sec" id="exp">Link kopieren</button><textarea id="expOut" rows="3" readonly style="display:none"></textarea>
   <h3>⚠️ Spiel</h3><button class="big sec" id="reset">Spiel zurücksetzen (Einrichtung bleibt)</button>
   <button class="big sec" id="close">Schließen</button>`;
-  const collect=()=>{cfg.word=$("#word").value.trim()||"SOFA";cfg.wordHint=$("#wordHint").value.trim();cfg.chestPlace=$("#chest").value.trim();cfg.radius=Math.max(10,+$("#rad").value||30);cfg.bday=$("#bday").value.trim();
-    for(const k of ["huegel","baum"]){const h=$("#hint_"+k);if(h)cfg.points[k].hint=h.value}saveCfg()};
+  const collect=()=>{cfg.word=norm($("#word").value)||"WURZEL";cfg.chestPlace=$("#chest").value.trim()||DEFAULT_CFG.chestPlace;cfg.radius=Math.max(10,+$("#rad").value||30);cfg.bday=$("#bday").value.trim();
+    for(const k of PKEYS){const h=$("#hint_"+k);if(h)cfg.points[k].hint=h.value}saveCfg()};
   C.querySelectorAll("[data-save]").forEach(b=>b.onclick=()=>{
     const k=b.dataset.save;$("#pos_"+k).textContent="Suche GPS … (bitte kurz stillstehen)";
     let best=null,cnt=0;
@@ -434,22 +579,23 @@ function openAdmin(unlocked){
       $("#pos_"+k).textContent=`Messung ${cnt}: ± ${Math.round(p.coords.accuracy)} m`;
       if(cnt>=6||best.coords.accuracy<8){navigator.geolocation.clearWatch(id);cfg.points[k].lat=best.coords.latitude;cfg.points[k].lon=best.coords.longitude;collect();
         $("#pos_"+k).innerHTML=`<span class="ok-txt">✔ gespeichert (± ${Math.round(best.coords.accuracy)} m)</span>`;beep(990)}},
-      e=>{$("#pos_"+k).innerHTML=`<span class="bad-txt">GPS-Fehler: ${esc(e.message)}</span>`},{enableHighAccuracy:true,maximumAge:0,timeout:30000});
+      e=>{$("#pos_"+k).innerHTML=`<span class="bad-txt">GPS-Fehler: ${esc(e.message)}. iPhone: Einstellungen → Datenschutz → Ortungsdienste → Safari-Websites → „Beim Verwenden“ + Genauer Standort.</span>`},{enableHighAccuracy:true,maximumAge:0,timeout:30000});
   });
   C.querySelectorAll("[data-photo]").forEach(inp=>inp.onchange=()=>{
     const f=inp.files[0];if(!f)return;const img=new Image();const u=URL.createObjectURL(f);
     img.onload=()=>{const s=Math.min(1,700/Math.max(img.width,img.height));const cv=document.createElement("canvas");cv.width=img.width*s;cv.height=img.height*s;cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
       collect();cfg.points[inp.dataset.photo].photo=cv.toDataURL("image/jpeg",.7);saveCfg();URL.revokeObjectURL(u);alertBox("Foto gespeichert ✔");openAdmin(true)};img.src=u;
   });
+  const setStep=s=>{collect();stopV();st.step=Math.max(0,Math.min(LAST,s));st.keys=keysFor(st.step);if(st.step!==6)st.quiz=0;st.d0=null;saveSt();updKeys();openAdmin(true)};
   $("#saveAll").onclick=()=>{collect();alertBox("Gespeichert ✔")};
-  $("#prev").onclick=()=>{collect();st.step=Math.max(0,st.step-1);saveSt();openAdmin(true)};
-  $("#next").onclick=()=>{collect();st.step=Math.min(13,st.step+1);if(st.step===3)st.keys[0]=true;if(st.step===5)st.keys[1]=true;if(st.step===9)st.keys[2]=true;saveSt();updKeys();openAdmin(true)};
-  $("#exp").onclick=async()=>{collect();const o={bday:cfg.bday,radius:cfg.radius,word:cfg.word,wordHint:cfg.wordHint,chestPlace:cfg.chestPlace,points:{}};
-    for(const k in cfg.points){const p=cfg.points[k];o.points[k]={name:p.name,lat:p.lat,lon:p.lon,hint:p.hint}}
+  $("#prev").onclick=()=>setStep(st.step-1);
+  $("#next").onclick=()=>setStep(st.step+1);
+  $("#exp").onclick=async()=>{collect();const o={bday:cfg.bday,radius:cfg.radius,word:cfg.word,chestPlace:cfg.chestPlace,points:{}};
+    for(const k of PKEYS){const p=cfg.points[k];o.points[k]={lat:p.lat,lon:p.lon,hint:p.hint}}
     const link=location.origin+location.pathname+"#cfg="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))));
     const t=$("#expOut");t.style.display="block";t.value=link;t.select();
-    try{await navigator.clipboard.writeText(link);alertBox("Link kopiert ✔")}catch(e){alertBox("Link markiert – bitte manuell kopieren")}};
-  $("#reset").onclick=()=>{st={step:0,names:[],keys:[false,false,false],start:null,quiz:0};saveSt();updKeys();alertBox("Spiel zurückgesetzt")};
+    try{await navigator.clipboard.writeText(link);alertBox("Link kopiert ✔")}catch(e){alertBox("Link markiert, bitte manuell kopieren")}};
+  $("#reset").onclick=()=>{stopV();st=ST0();saveSt();pics=[null,null,null];savePics();updKeys();alertBox("Spiel zurückgesetzt")};
   $("#close").onclick=()=>{collect();closeAdmin()};
 }
 function closeAdmin(){$("#admin").style.display="none";render()}
@@ -460,7 +606,8 @@ $("#themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="da
 try{setTheme(localStorage.getItem("hc_theme")||"light")}catch(e){setTheme("light")}
 
 /* ============ Start ============ */
-function render(){stopRadar();updKeys();danger();(steps[st.step]||steps[0])()}
+function render(){stopRadar();if(st.step>LAST)st.step=0;updKeys();danger();rolebar();(steps[st.step]||steps[0])();
+  for(const id in VOICES)if(curV===id)setPlaying(id,true)}
 render();
 </script>
 </body>
