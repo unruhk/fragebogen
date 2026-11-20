@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Horse Club – Die goldenen Schlüssel</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='22' cy='32' r='14' fill='none' stroke='%23d4a017' stroke-width='7'/%3E%3Crect x='34' y='28' width='26' height='8' rx='2' fill='%23d4a017'/%3E%3Crect x='48' y='36' width='6' height='10' fill='%23d4a017'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6ecd6; --paper:#fffaf0; --ink:#3b2a1a; --muted:#7a6248; --gold:#c8961a; --gold2:#f0c64a;
+  --berry:#8c2f39; --green:#2f6b3a; --line:#e2cfa6; --shadow:0 6px 20px rgba(80,50,10,.15);
+}
+:root[data-theme="dark"]{
+  --bg:#1d1712; --paper:#2a221a; --ink:#f3e6cf; --muted:#c2a984; --line:#4a3b2a; --shadow:0 6px 20px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.45}
+body{overflow-wrap:anywhere;padding:0 16px calc(90px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;gap:10px;padding:14px 0 8px;position:sticky;top:0;background:var(--bg);z-index:5}
+#logo{width:44px;height:44px;flex:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+header h1{font-size:19px;margin:0;line-height:1.15}
+header small{display:block;color:var(--muted);font-weight:normal;font-size:13px}
+#themeBtn{margin-left:auto;background:none;border:1px solid var(--line);border-radius:10px;font-size:18px;padding:4px 8px;color:var(--ink)}
+.keys{display:flex;gap:6px;margin:4px 0 10px}
+.keys span{flex:1;text-align:center;border:2px dashed var(--line);border-radius:12px;padding:4px 0;font-size:22px;opacity:.35;transition:.4s}
+.keys span.got{opacity:1;border-style:solid;border-color:var(--gold);background:linear-gradient(135deg,#fff3c4,#f0c64a33)}
+.danger{margin:0 0 12px;font-size:13px;color:var(--muted)}
+.danger .bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:3px}
+.danger .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e8a33d,var(--berry));transition:width 1s}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--shadow);animation:pop .4s ease}
+@keyframes pop{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.card h2{margin:0 0 8px;font-size:21px;color:var(--berry)}
+:root[data-theme="dark"] .card h2{color:var(--gold2)}
+.msg{display:flex;gap:10px;margin:10px 0;align-items:flex-start}
+.msg .av{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:22px;border:2px solid var(--gold)}
+.msg .bub{background:var(--bg);border-radius:4px 16px 16px 16px;padding:8px 12px;flex:1}
+.msg .who{font-size:12px;font-weight:bold;color:var(--muted)}
+.letter{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;background:#f3e2b8;color:#3b2a1a;border-radius:6px;padding:14px;transform:rotate(-.6deg);box-shadow:inset 0 0 30px rgba(120,80,20,.25)}
+.roles{display:grid;gap:6px;margin:10px 0}
+.roles div{background:var(--bg);border-radius:12px;padding:8px 10px;font-size:16px}
+.roles b{color:var(--berry)}
+:root[data-theme="dark"] .roles b{color:var(--gold2)}
+button.big{display:block;width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;font-size:19px;font-weight:bold;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8a6510;font-family:inherit}
+button.big:active{transform:translateY(2px);box-shadow:0 1px 0 #8a6510}
+button.sec{background:var(--bg);color:var(--ink);box-shadow:none;border:1px solid var(--line);font-size:16px;padding:11px}
+input[type=text],input[type=number],textarea{width:100%;font-size:18px;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:inherit;margin:4px 0}
+.radar{text-align:center;padding:10px 0;-webkit-user-select:none;user-select:none}
+.radar .dist{font-size:46px;font-weight:bold;line-height:1}
+.radar .temp{font-size:24px;margin-top:6px}
+.radar .trend{color:var(--muted);font-size:15px;min-height:20px}
+.radar .ring{width:150px;height:150px;margin:6px auto;border-radius:50%;display:grid;place-items:center;font-size:56px;background:radial-gradient(circle,var(--paper) 40%,transparent 41%),conic-gradient(from 0deg,#5aa0e0,#e8a33d,#d9412b,#5aa0e0);animation:spin 6s linear infinite}
+@keyframes spin{to{filter:hue-rotate(360deg)}}
+.cipher{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:34px;margin:10px 0}
+.cipher span{background:var(--bg);border-radius:10px;padding:2px 6px}
+.legend{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;font-size:15px;margin-top:8px}
+.legend div{background:var(--bg);border-radius:8px;text-align:center;padding:3px 0}
+.opts{display:grid;gap:8px;margin-top:8px}
+.opts button{padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);font-size:17px;text-align:left;color:var(--ink);font-family:inherit}
+.opts button.ok{border-color:var(--green);background:#d9f0dc;color:#1d3d22}
+.opts button.no{border-color:var(--berry);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.symgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.symgrid button{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px;font-family:inherit;color:var(--ink)}
+.symgrid svg{width:70px;height:70px}
+.keysvg{display:block;margin:6px auto;width:100%;max-width:330px;transition:transform .6s}
+.keysvg.zoom{transform:scale(2.2) translateX(-12%)}
+.hintimg{width:100%;border-radius:12px;margin-top:8px}
+.note{font-size:14px;color:var(--muted)}
+.alarm{border:3px solid var(--berry);animation:pulse 1s ease 3}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(140,47,57,.25)}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+#admin{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none;overflow:auto;padding:20px 16px}
+#admin .card{margin:0 auto;max-width:520px}
+#admin h3{margin:16px 0 4px;font-size:17px}
+#admin label{font-size:14px;color:var(--muted)}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+.ok-txt{color:var(--green);font-weight:bold}
+.bad-txt{color:var(--berry);font-weight:bold}
+.shake{animation:shake .4s}
+</style>
+</head>
+<body>
+<header>
+  <svg id="logo" viewBox="0 0 64 64" aria-label="Horse Club"><circle cx="32" cy="32" r="30" fill="#8c2f39"/><path d="M20 46 C18 30 22 22 30 16 L34 12 L36 18 C44 20 48 28 46 36 L40 34 L38 46 Z" fill="#f0c64a"/><circle cx="37" cy="24" r="2" fill="#8c2f39"/></svg>
+  <h1>Horse Club<small>Die goldenen Schlüssel · Ein neuer Fall</small></h1>
+  <button id="themeBtn" aria-label="Hell/Dunkel">🌙</button>
+</header>
+<div class="keys"><span id="k1">🔑</span><span id="k2">🔑</span><span id="k3">🔑</span></div>
+<div class="danger" id="dangerBox" hidden>Mr. Michaels’ Plan: <span id="dangerPct">0</span> %<div class="bar"><i id="dangerBar"></i></div></div>
+<main id="app"></main>
+<canvas id="confetti"></canvas>
+
+<div id="admin"><div class="card" id="adminCard"></div></div>
+
+<script>
+"use strict";
+/* ============ Speicher ============ */
+const LS_CFG="hc_cfg_v1", LS_ST="hc_state_v1", PIN="7531";
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){alertBox("Speichern fehlgeschlagen (Speicher voll?)")}}
+};
+const DEFAULT_CFG={
+  radius:30,
+  word:"SOFA",           // Geheimwort = Versteck von Schlüssel 1 zu Hause
+  wordHint:"",           // optionaler Zusatz, wird nach dem Lösen gezeigt
+  chestPlace:"im Wohnzimmer hinter dem Sofa", // wo die Kiste steht
+  points:{
+    huegel:{name:"Der Aussichtshügel",lat:null,lon:null,hint:"Schaut euch oben genau um: das Versteck ist …",photo:null},
+    baum:{name:"Der Schatzbaum am See",lat:null,lon:null,hint:"Sucht den Baum mit dem Zeichen. Der Schlüssel liegt …",photo:null},
+    home:{name:"Zuhause",lat:null,lon:null,hint:"",photo:null}
+  }
+};
+let cfg=Object.assign({},DEFAULT_CFG,store.get(LS_CFG,{}));
+cfg.points=Object.assign({},DEFAULT_CFG.points,cfg.points||{});
+let st=store.get(LS_ST,{step:0,names:[],keys:[false,false,false],start:null,quiz:0});
+const saveCfg=()=>store.set(LS_CFG,cfg), saveSt=()=>store.set(LS_ST,st);
+
+/* Import der Einrichtung per Link: …/#cfg=… */
+(function(){
+  const m=location.hash.match(/cfg=([^&]+)/);
+  if(!m)return;
+  try{
+    const imp=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+    for(const k of ["radius","word","wordHint","chestPlace","bday"]) if(imp[k]!==undefined) cfg[k]=imp[k];
+    if(imp.points) for(const p in imp.points){cfg.points[p]=Object.assign({},cfg.points[p]||{},imp.points[p],{photo:(cfg.points[p]||{}).photo||null})}
+    saveCfg();
+    history.replaceState(null,"",location.pathname);
+    setTimeout(()=>alertBox("Einrichtung übernommen ✔"),300);
+  }catch(e){setTimeout(()=>alertBox("Einrichtungs-Link konnte nicht gelesen werden."),300)}
+})();
+
+/* ============ Hilfen ============ */
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const N=i=>esc(st.names[i]||["Mädchen 1","Mädchen 2","Mädchen 3"][i]);
+const CHAR={
+  hannah:{n:"Hannah",av:"🤠",c:"#e8a33d"},
+  lisa:{n:"Lisa",av:"🏆",c:"#333"},
+  sarah:{n:"Sarah",av:"📖",c:"#d4b04a"},
+  sophia:{n:"Sophia",av:"🎨",c:"#d77fa1"},
+  funk:{n:"Abgefangener Funkspruch",av:"📻",c:"#8c2f39"},
+  spion:{n:"Der kleine Spion",av:"🕵️",c:"#555"}
+};
+function msg(who,text){const c=CHAR[who];return `<div class="msg"><div class="av" style="background:${c.c}22">${c.av}</div><div class="bub"><div class="who">${c.n}</div>${text}</div></div>`}
+function roles(){
+  // Rollen wechseln je Kapitel
+  const r=["🗺️ Kartenleserin – hält das Handy und führt","🧩 Rätselmeisterin – liest vor und löst Rätsel","🔑 Schlüsselhüterin – sucht Verstecke, verwahrt die Schlüssel"];
+  const off=st.step%3;
+  return `<div class="roles">${[0,1,2].map(i=>`<div><b>${N((i+off)%3)}</b>: ${r[i]}</div>`).join("")}</div>`;
+}
+function beep(f=880,d=.15){try{const a=new (window.AudioContext||window.webkitAudioContext)();const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.2,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.start();o.stop(a.currentTime+d)}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*160))}
+function alertBox(t){const d=document.createElement("div");d.className="card";d.style.cssText="position:fixed;left:16px;right:16px;bottom:20px;z-index:60";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
+function go(step){st.step=step;saveSt();render();window.scrollTo({top:0,behavior:"smooth"})}
+function updKeys(){st.keys.forEach((k,i)=>$("#k"+(i+1)).classList.toggle("got",!!k))}
+function gotKey(i){st.keys[i]=true;saveSt();updKeys();fanfare()}
+
+/* Gefahrenleiste: steigt mit der Zeit, erreicht nie 100 % */
+function danger(){
+  const box=$("#dangerBox");
+  if(!st.start||st.step>=10){box.hidden=true;return}
+  box.hidden=false;
+  const min=(Date.now()-st.start)/60000;
+  let p=Math.min(95,Math.round(15+min*1.1+st.step*4));
+  $("#dangerPct").textContent=p;$("#dangerBar").style.width=p+"%";
+}
+setInterval(danger,15000);
+
+/* ============ GPS ============ */
+let watchId=null,lastDist=null,target=null,onArrive=null,wake=null;
+function haversine(a,b,c,d){const R=6371000,t=x=>x*Math.PI/180;const dl=t(c-a),dn=t(d-b);const h=Math.sin(dl/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function tempWord(d){if(d<=cfg.radius)return["🔥🔥 Ihr seid da!","#d9412b"];if(d<60)return["🔥 Glühend heiß!","#d9412b"];if(d<120)return["☀️ Heiß","#e8743d"];if(d<220)return["🌤️ Warm","#e8a33d"];if(d<400)return["🌥️ Kalt","#6aa0d0"];return["❄️ Eiskalt","#3c78c0"]}
+async function keepAwake(){try{if("wakeLock" in navigator){wake=await navigator.wakeLock.request("screen")}}catch(e){}}
+function startRadar(pointKey,cb){
+  stopRadar();
+  const p=cfg.points[pointKey];target=p;onArrive=cb;lastDist=null;
+  keepAwake();
+  if(p.lat==null){$("#radarInfo").innerHTML=`<span class="note">Für diesen Ort ist noch keine Position gespeichert. Der Spielleiter schaltet frei (lange auf die Anzeige drücken).</span>`;return}
+  if(!("geolocation" in navigator)){$("#radarInfo").textContent="GPS nicht verfügbar – der Spielleiter schaltet frei.";return}
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    const d=Math.round(haversine(pos.coords.latitude,pos.coords.longitude,p.lat,p.lon));
+    const [w,col]=tempWord(d);
+    const el=$("#radarInfo");if(!el)return;
+    let trend="";
+    if(lastDist!=null){if(d<lastDist-4)trend="👍 Wärmer! Weiter so.";else if(d>lastDist+4)trend="👎 Kälter … falsche Richtung?";}
+    lastDist=d;
+    el.innerHTML=`<div class="dist">${d} m</div><div class="temp" style="color:${col}">${w}</div><div class="trend">${trend}</div><div class="note">GPS-Genauigkeit ± ${Math.round(pos.coords.accuracy)} m</div>`;
+    if(d<=cfg.radius){arrive()}
+  },err=>{
+    const el=$("#radarInfo");if(el)el.innerHTML=`<span class="note">GPS: ${esc(err.message)}. Standort in den Einstellungen erlauben (Safari → Standort) oder Spielleiter schaltet frei.</span>`;
+  },{enableHighAccuracy:true,maximumAge:2000,timeout:20000});
+}
+function stopRadar(){if(watchId!=null){navigator.geolocation.clearWatch(watchId);watchId=null}}
+function arrive(){if(!onArrive)return;const cb=onArrive;onArrive=null;stopRadar();fanfare();cb()}
+function radarCard(title,text,pointKey,next){
+  app.innerHTML=`<div class="card"><h2>${title}</h2>${text}
+  <div class="radar" id="radar"><div class="ring">🧭</div><div id="radarInfo"><div class="note">Suche GPS-Signal …</div></div></div>
+  <p class="note">Hinweis: Die Zahl zeigt, wie weit ihr noch weg seid. Wird sie kleiner, seid ihr richtig.</p></div>`;
+  // Spielleiter: 2 s auf die Anzeige drücken = ankommen
+  let t=null;const r=$("#radar");
+  const down=()=>{t=setTimeout(()=>{arrive()},2000)},up=()=>clearTimeout(t);
+  r.addEventListener("touchstart",down,{passive:true});r.addEventListener("touchend",up);r.addEventListener("mousedown",down);r.addEventListener("mouseup",up);
+  startRadar(pointKey,next);
+}
+
+/* ============ Geheimschrift ============ */
+const ALPHA={A:"🐴",B:"🥕",C:"🍎",D:"🌾",E:"⭐",F:"🌙",G:"🌳",H:"🏠",I:"🔑",J:"🎀",K:"🍀",L:"🦋",M:"🌸",N:"🐞",O:"☀️",P:"🐾",Q:"🍄",R:"🌈",S:"🐚",T:"🎈",U:"🐸",V:"🍓",W:"💧",X:"❄️",Y:"🦉",Z:"⚡"};
+const norm=s=>String(s||"").toUpperCase().replace(/Ä/g,"AE").replace(/Ö/g,"OE").replace(/Ü/g,"UE").replace(/ß/g,"SS").replace(/[^A-Z ]/g,"").trim();
+
+/* ============ Quiz ============ */
+const QUIZ=[
+  {q:"Wie heißt Hannahs Pferd?",a:["Storm","Cayenne","Princess","Blossom"],r:1},
+  {q:"Wie nennt man ein Pferdebaby?",a:["Kälbchen","Fohlen","Ferkel","Zicklein"],r:1},
+  {q:"Welche drei Grundgangarten hat ein Reitpferd?",a:["Schritt, Trab, Galopp","Hüpfen, Rennen, Fliegen","Schritt, Sprint, Sprung","Trab, Tanz, Tölt"],r:0},
+  {q:"Sarahs Stute Mystery ist ein Palomino. Wie sieht ein Palomino aus?",a:["Schwarz mit weißen Punkten","Goldfarben mit heller Mähne","Ganz weiß","Braun mit schwarzer Mähne"],r:1},
+  {q:"Wie heißt das böse Mädchen, das dem Horse Club immer Ärger macht?",a:["Emily","Mia","Tori","Lisa"],r:2}
+];
+
+/* ============ Kapitel ============ */
+const steps=[];
+// 0 Start: Namen
+steps[0]=()=>{
+  app.innerHTML=`<div class="card"><h2>🐎 Ein Hilferuf vom Horse Club</h2>
+  <p>Diese Nachricht ist nur für die drei mutigsten Pferdefreundinnen gedacht. Tragt eure Namen ein:</p>
+  <input type="text" id="n0" placeholder="Name 1" value="${esc(st.names[0]||"")}">
+  <input type="text" id="n1" placeholder="Name 2" value="${esc(st.names[1]||"")}">
+  <input type="text" id="n2" placeholder="Name 3" value="${esc(st.names[2]||"")}">
+  <button class="big" id="b">Nachricht öffnen</button></div>`;
+  $("#b").onclick=()=>{
+    const n=[0,1,2].map(i=>$("#n"+i).value.trim());
+    if(n.some(x=>!x)){alertBox("Bitte alle drei Namen eintragen.");return}
+    st.names=n;st.start=st.start||Date.now();beep(660);go(1);
+  };
+};
+// 1 Hilferuf
+steps[1]=()=>{
+  app.innerHTML=`<div class="card"><h2>📨 Dringend! Aus Lakeside</h2>
+  ${msg("hannah",`Hallo ${N(0)}, ${N(1)} und ${N(2)}! Wir brauchen eure Hilfe – und zwar <b>heute</b>!`)}
+  ${msg("lisa",`Mr. Michaels hat schon wieder einen fiesen Plan: Er will den <b>Peppertree-Wald</b> kaufen und unseren geheimen <b>Wohnwagen</b> abreißen lassen. 😡`)}
+  ${msg("sarah",`Aber es gibt Hoffnung! Die Mädchen, die früher im Wohnwagen waren, haben einen <b>Schutzbrief</b> versteckt. Darin steht, dass der Wald für immer den Pferden und Tieren gehört.`)}
+  ${msg("sophia",`Der Schutzbrief liegt in einer <b>Kiste mit drei Schlössern</b>. Ihr braucht alle <b>drei goldenen Schlüssel</b>. Wir sitzen leider auf einem Turnier fest … 😢`)}
+  ${msg("hannah",`Deshalb seid ihr jetzt unsere <b>Anwärterinnen</b>. Wenn ihr es schafft, werdet ihr <b>Ehrenmitglieder des Horse Club</b>! Ihr arbeitet zusammen – jede hat eine Aufgabe:`)}
+  ${roles()}
+  <p class="note">Die Aufgaben wechseln bei jedem Kapitel. Achtung: Mr. Michaels hat bestimmt Spione …</p>
+  <button class="big" id="b">Wir helfen! Hoch lebe der Horse Club! 🐴</button></div>`;
+  $("#b").onclick=()=>go(2);
+};
+// 2 Geheimschrift → Schlüssel 1 zu Hause
+steps[2]=()=>{
+  const w=norm(cfg.word);
+  const enc=[...w].map(ch=>ch===" "?`<span style="background:none">&nbsp;</span>`:`<span>${ALPHA[ch]}</span>`).join("");
+  app.innerHTML=`<div class="card"><h2>🧩 Kapitel 1: Die Geheimschrift</h2>${roles()}
+  <div class="letter">Liebe Nachfolgerinnen,<br>der erste goldene Schlüssel ist ganz in eurer Nähe versteckt. Damit ihn kein Spion findet, haben wir das Versteck in unserer Pferdeschrift aufgeschrieben:</div>
+  <div class="cipher">${enc}</div>
+  <p>Entschlüsselt das Wort mit der Tabelle:</p>
+  <div class="legend">${Object.entries(ALPHA).map(([k,v])=>`<div>${v}<br><b>${k}</b></div>`).join("")}</div>
+  <input type="text" id="ans" placeholder="Lösungswort" autocomplete="off" autocapitalize="characters">
+  <button class="big" id="b">Prüfen</button><div id="res"></div></div>`;
+  $("#b").onclick=()=>{
+    if(norm($("#ans").value).replace(/ /g,"")===w.replace(/ /g,"")){
+      beep(990);
+      $("#res").innerHTML=`<p class="ok-txt">✔ Richtig! Der Schlüssel ist beim Versteck „${esc(cfg.word)}“. ${esc(cfg.wordHint)}</p>
+      <p>Schlüsselhüterin, ab zum Versteck! Habt ihr ihn?</p><button class="big" id="b2">🔑 Wir haben Schlüssel 1!</button>`;
+      $("#b2").onclick=()=>{gotKey(0);go(3)};
+    } else {$("#ans").classList.add("shake");setTimeout(()=>$("#ans").classList.remove("shake"),400);beep(220,.3)}
+  };
+};
+// 3 Auf zum Hügel
+steps[3]=()=>{
+  radarCard("🗺️ Kapitel 2: Der Aussichtshügel",
+    `${roles()}${msg("sarah",`Super, der erste Schlüssel! 🎉 Der zweite Hinweis führt euch zu einem <b>Ort, von dem man weit schauen kann</b> – so wie mit dem Teleskop auf dem Dachboden. Folgt der Wärme-Anzeige!`)}`,
+    "huegel",()=>go(4));
+};
+// 4 Hügel: Quiz → Versteck 2
+steps[4]=()=>{
+  const i=st.quiz||0;
+  if(i>=QUIZ.length){return showHide("huegel",()=>{gotKey(1);go(5)},"🔑 Wir haben Schlüssel 2!")}
+  const q=QUIZ[i];
+  app.innerHTML=`<div class="card"><h2>🔭 Oben angekommen!</h2>
+  ${i===0?msg("sophia",`Ihr seid da! Bevor wir euch das Versteck verraten, müsst ihr beweisen, dass ihr echte Pferdekennerinnen seid. Rätselmeisterin, lies vor! Wer die Antwort weiß, macht laut <b>„Summ!“</b> 🐝`):""}
+  <p class="note">Frage ${i+1} von ${QUIZ.length}</p><p><b>${q.q}</b></p>
+  <div class="opts">${q.a.map((a,j)=>`<button data-j="${j}">${esc(a)}</button>`).join("")}</div></div>`;
+  app.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{
+    if(+b.dataset.j===q.r){b.classList.add("ok");beep(990);setTimeout(()=>{st.quiz=i+1;saveSt();render()},700)}
+    else{b.classList.add("no");beep(220,.3);setTimeout(()=>b.classList.remove("no"),500)}
+  });
+};
+function showHide(pk,done,label){
+  const p=cfg.points[pk];
+  app.innerHTML=`<div class="card"><h2>🎉 Geschafft! Das Versteck:</h2>
+  <div class="letter">${esc(p.hint)}</div>${p.photo?`<img class="hintimg" src="${p.photo}" alt="Versteck">`:""}
+  <p>Schlüsselhüterin, such ihn! Die anderen helfen.</p><button class="big" id="b">${label}</button></div>`;
+  $("#b").onclick=done;
+}
+// 5 Spion-Warnung
+steps[5]=()=>{
+  app.innerHTML=`<div class="card alarm"><h2>📻 Alarm!</h2>
+  ${msg("funk",`<i>… kchhh … Agent Kurzbein, hören Sie mich? … Die Mädchen haben schon <b>zwei Schlüssel</b>! … Holen Sie sie sich! … kchhh …</i>`)}
+  ${msg("lisa",`Oh nein! Mr. Michaels hat einen <b>Spion</b> losgeschickt! Er ist klein, aber schnell. Passt gut auf eure Schlüssel auf!`)}
+  ${msg("hannah",`Wenn er euch einen Schlüssel klaut: <b>fangt ihn und holt ihn zurück!</b> Der Horse Club gibt nie auf!`)}
+  <button class="big" id="b">Alle Schlüssel sind (wieder) bei uns! 💪</button></div>`;
+  $("#b").onclick=()=>go(6);
+};
+// 6 Kratzer auf dem Schlüssel
+const SYM={
+  baum:`<svg viewBox="0 0 60 60"><path d="M30 6 L12 30 H22 L10 44 H50 L38 30 H48 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M30 44 V56" stroke="currentColor" stroke-width="4"/></svg>`,
+  huf:`<svg viewBox="0 0 60 60"><path d="M14 52 V30 A16 16 0 0 1 46 30 V52" fill="none" stroke="currentColor" stroke-width="7"/></svg>`,
+  stern:`<svg viewBox="0 0 60 60"><path d="M30 5 L37 23 L56 23 L41 35 L47 54 L30 43 L13 54 L19 35 L4 23 L23 23 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>`,
+  welle:`<svg viewBox="0 0 60 60"><path d="M4 24 Q15 12 26 24 T48 24 T60 24 M4 40 Q15 28 26 40 T48 40 T60 40" fill="none" stroke="currentColor" stroke-width="3"/></svg>`
+};
+steps[6]=()=>{
+  app.innerHTML=`<div class="card"><h2>🔍 Kapitel 3: Das Zeichen im Schlüssel</h2>${roles()}
+  ${msg("sophia",`Schaut euch den zweiten Schlüssel ganz genau an! In unserem Abenteuer waren auf einem Schlüssel <b>Kratzer</b> – und die waren in Wahrheit ein <b>Zeichen</b>! Hier ist ein Bild davon. Tippt drauf, um es zu vergrößern.`)}
+  <svg class="keysvg" id="ks" viewBox="0 0 300 110">
+    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f7dc7a"/><stop offset="1" stop-color="#b8860b"/></linearGradient></defs>
+    <circle cx="55" cy="55" r="42" fill="url(#g)" stroke="#8a6510" stroke-width="3"/><circle cx="55" cy="55" r="16" fill="var(--paper)" stroke="#8a6510" stroke-width="3"/>
+    <rect x="95" y="44" width="190" height="22" rx="4" fill="url(#g)" stroke="#8a6510" stroke-width="3"/>
+    <rect x="245" y="64" width="12" height="26" fill="url(#g)" stroke="#8a6510" stroke-width="3"/><rect x="265" y="64" width="12" height="18" fill="url(#g)" stroke="#8a6510" stroke-width="3"/>
+    <g stroke="#6b4a08" stroke-width="1.6" stroke-linecap="round" opacity=".9">
+      <path d="M170 46 L160 52 M170 46 L180 52 M164 51 L157 57 M176 51 L183 57 M157 57 L183 57 M170 57 L170 65"/>
+      <path d="M120 48 L124 50 M140 60 L146 58 M205 49 L209 47 M225 61 L229 63 M110 59 L113 62 M230 50 L233 52" opacity=".6"/>
+    </g>
+  </svg>
+  <p><b>Welches Zeichen ist in den Schlüssel geritzt?</b></p>
+  <div class="symgrid">${["huf","baum","stern","welle"].map(k=>`<button data-k="${k}">${SYM[k]}</button>`).join("")}</div><div id="res"></div></div>`;
+  $("#ks").onclick=()=>$("#ks").classList.toggle("zoom");
+  app.querySelectorAll(".symgrid button").forEach(b=>b.onclick=()=>{
+    if(b.dataset.k==="baum"){b.style.borderColor="var(--green)";beep(990);
+      $("#res").innerHTML=`${msg("sarah",`Ein <b>Baum</b>! 🌳 Auf unserer geheimen Karte gibt es nur ein einziges Baum-Zeichen: den <b>Schatzbaum am See</b>. Dort ist der dritte Schlüssel!`)}<button class="big" id="b">Auf zum Schatzbaum!</button>`;
+      $("#b").onclick=()=>go(7);
+    } else {b.classList.add("shake");beep(220,.3);setTimeout(()=>b.classList.remove("shake"),400)}
+  });
+};
+// 7 Radar Baum
+steps[7]=()=>{
+  radarCard("🌳 Kapitel 4: Der Schatzbaum",
+    `${roles()}${msg("lisa",`Schnell, aber passt auf den Spion auf! Folgt der Wärme-Anzeige zum See. Am Ziel sucht ihr einen Baum, der ein <b>Zeichen</b> trägt.`)}`,
+    "baum",()=>go(8));
+};
+// 8 Versteck 3
+steps[8]=()=>showHide("baum",()=>{gotKey(2);go(9)},"🔑 Wir haben Schlüssel 3!");
+// 9 Spion verletzt
+steps[9]=()=>{
+  app.innerHTML=`<div class="card alarm"><h2>😱 Oh nein!</h2>
+  ${msg("funk",`<i>… kchhh … Agent Kurzbein, holen Sie sich den letzten Schlüssel! Sofort! …</i>`)}
+  <p><b>Der kleine Spion ist bei der Verfolgung gestürzt!</b> Er sitzt auf dem Boden und hält sich das Bein.</p>
+  ${msg("hannah",`Wisst ihr noch? Als Tori vom Pferd gefallen ist, haben wir ihr geholfen – auch wenn sie gemein war. <b>Ein echtes Horse-Club-Mädchen lässt niemanden liegen.</b>`)}
+  <div class="roles"><div>🩹 Fragt ihn, wo es wehtut</div><div>🩹 Klebt ein Pflaster drauf</div><div>🩹 Helft ihm auf und bringt ihn zu einer Bank</div></div>
+  <button class="big" id="b">Wir haben ihm geholfen ❤️</button></div>`;
+  $("#b").onclick=()=>go(10);
+};
+// 10 Spion wechselt die Seite
+steps[10]=()=>{
+  app.innerHTML=`<div class="card"><h2>🤝 Ein neuer Freund</h2>
+  ${msg("spion",`Danke … ihr seid ja gar nicht gemein! Mr. Michaels hat gesagt, ihr seid fies. Aber ihr habt mir geholfen. <b>Ich bin jetzt auf eurer Seite!</b>`)}
+  ${msg("spion",`Ich verrate euch ein Geheimnis: Die Kiste mit den drei Schlössern steht <b>${esc(cfg.chestPlace)}</b>!`)}
+  ${msg("sophia",`Wow, ihr habt den Spion umgedreht! 😄 Jetzt aber schnell nach Hause – Mr. Michaels darf nicht vor euch da sein!`)}
+  <button class="big" id="b">Ab nach Hause! 🏠</button></div>`;
+  $("#b").onclick=()=>go(cfg.points.home.lat!=null?11:12);
+};
+// 11 Radar Heim
+steps[11]=()=>radarCard("🏠 Kapitel 5: Zurück nach Hause",`${roles()}${msg("hannah","Die Kiste wartet! Folgt der Anzeige nach Hause.")}`,"home",()=>go(12));
+// 12 Kiste öffnen
+steps[12]=()=>{
+  app.innerHTML=`<div class="card"><h2>🗝️ Das Finale: Die Kiste</h2>
+  <p>Die Kiste steht <b>${esc(cfg.chestPlace)}</b>. Jede von euch steckt <b>einen</b> goldenen Schlüssel in ein Schloss:</p>
+  <div class="roles"><div>🔑 ${N(0)} – Schloss 1</div><div>🔑 ${N(1)} – Schloss 2</div><div>🔑 ${N(2)} – Schloss 3</div></div>
+  <p class="note">Tipp: Nicht jeder Schlüssel passt in jedes Schloss. Probiert aus!</p>
+  <button class="big" id="b">Die Kiste ist offen! 🎉</button></div>`;
+  $("#b").onclick=()=>go(13);
+};
+// 13 Sieg
+steps[13]=()=>{
+  $("#dangerBox").hidden=true;
+  app.innerHTML=`<div class="card"><h2>🏆 Der Wald ist gerettet!</h2>
+  ${msg("hannah",`IHR HABT ES GESCHAFFT! 🎉 Mit dem Schutzbrief kann Mr. Michaels den Peppertree-Wald nie kaufen. Unser Wohnwagen bleibt!`)}
+  ${msg("lisa",`Ich hab ja gleich gesagt, dass ihr das schafft. Fast so schnell wie Storm und ich! 😎`)}
+  ${msg("sarah",`Ihr habt Rätsel gelöst, Schlüssel gefunden – und dem Spion geholfen, obwohl er gegen euch war. Das ist der wahre Horse-Club-Geist.`)}
+  ${msg("sophia",`Hiermit ernennen wir euch zu <b>Ehrenmitgliedern des Horse Club</b>: <b>${N(0)}, ${N(1)} und ${N(2)}</b>! 💛 Die Kekse … äh, die Süßigkeiten in der Kiste gehören euch!`)}
+  <div class="letter" style="text-align:center;font-size:22px">Hoch lebe der Horse Club! 🐴🐴🐴</div>
+  ${cfg.bday?`<p style="text-align:center;font-size:20px">🎂 Und: <b>Alles Gute zum Geburtstag, ${esc(cfg.bday)}!</b> 🎂</p>`:""}</div>`;
+  fanfare();confetti();
+};
+
+/* ============ Konfetti ============ */
+function confetti(){
+  const c=$("#confetti"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;
+  const P=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height,r:4+Math.random()*6,v:2+Math.random()*3,a:Math.random()*6,c:["#f0c64a","#8c2f39","#2f6b3a","#d77fa1","#5aa0e0"][Math.floor(Math.random()*5)]}));
+  let n=0;(function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.v;p.a+=.1;x.fillStyle=p.c;x.fillRect(p.x+Math.sin(p.a)*8,p.y,p.r,p.r*1.6)});if(++n<420)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
+}
+
+/* ============ Spielleiter-Menü (5× auf das Logo tippen) ============ */
+let taps=0,tapT=null;
+$("#logo").addEventListener("click",()=>{taps++;clearTimeout(tapT);tapT=setTimeout(()=>taps=0,1500);if(taps>=5){taps=0;openAdmin(false)}});
+function openAdmin(unlocked){
+  const A=$("#admin"),C=$("#adminCard");A.style.display="block";stopRadar();
+  if(!unlocked){
+    C.innerHTML=`<h2>🔒 Spielleiter</h2><input type="number" id="pin" placeholder="PIN" inputmode="numeric"><button class="big" id="pinOk">Öffnen</button><button class="big sec" id="close">Schließen</button>`;
+    $("#pinOk").onclick=()=>{if($("#pin").value===PIN)openAdmin(true);else alertBox("Falsche PIN")};
+    $("#close").onclick=closeAdmin;return;
+  }
+  const pt=k=>{const p=cfg.points[k];return `<h3>📍 ${esc(p.name)}</h3>
+    <div class="note" id="pos_${k}">${p.lat!=null?`gespeichert: ${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`:"noch keine Position"}</div>
+    <button class="big sec" data-save="${k}">📍 Aktuelle Position hier speichern</button>
+    ${k!=="home"?`<label>Versteck-Hinweis (wird nach dem Rätsel gezeigt)</label><textarea id="hint_${k}" rows="2">${esc(p.hint)}</textarea>
+    <label>Foto vom Versteck (optional, nur auf diesem Handy)</label><input type="file" accept="image/*" data-photo="${k}">
+    ${p.photo?`<img class="hintimg" src="${p.photo}" style="max-height:120px;object-fit:cover">`:""}`:""}`};
+  const stepNames=["Namen","Hilferuf","Geheimschrift (Schlüssel 1)","Weg zum Hügel","Hügel-Quiz / Versteck 2","Spion-Alarm","Zeichen im Schlüssel","Weg zum Schatzbaum","Versteck 3","Spion gestürzt","Spion hilft","Weg nach Hause","Kiste öffnen","Sieg"];
+  C.innerHTML=`<h2>🛠️ Spielleiter</h2>
+  <p class="note">Aktuell: Schritt ${st.step} – ${stepNames[st.step]||""}</p>
+  <div class="row"><button class="big sec" id="prev">◀ Zurück</button><button class="big sec" id="next">Weiter ▶</button></div>
+  <h3>🔤 Geheimwort (Versteck Schlüssel 1 zu Hause)</h3><input type="text" id="word" value="${esc(cfg.word)}">
+  <label>Zusatz nach dem Lösen (optional)</label><input type="text" id="wordHint" value="${esc(cfg.wordHint)}">
+  <h3>📦 Wo steht die Kiste?</h3><input type="text" id="chest" value="${esc(cfg.chestPlace)}">
+  <h3>🎂 Geburtstagskind (für die Schlussseite)</h3><input type="text" id="bday" value="${esc(cfg.bday||"")}">
+  <h3>🎯 Ankunfts-Radius (Meter)</h3><input type="number" id="rad" value="${cfg.radius}">
+  ${pt("huegel")}${pt("baum")}${pt("home")}
+  <button class="big" id="saveAll">💾 Alles speichern</button>
+  <h3>🔗 Einrichtung auf anderes Handy übertragen</h3><p class="note">Kopiert einen Link mit Positionen und Texten (ohne Fotos).</p>
+  <button class="big sec" id="exp">Link kopieren</button><textarea id="expOut" rows="3" readonly style="display:none"></textarea>
+  <h3>⚠️ Spiel</h3><button class="big sec" id="reset">Spiel zurücksetzen (Einrichtung bleibt)</button>
+  <button class="big sec" id="close">Schließen</button>`;
+  const collect=()=>{cfg.word=$("#word").value.trim()||"SOFA";cfg.wordHint=$("#wordHint").value.trim();cfg.chestPlace=$("#chest").value.trim();cfg.radius=Math.max(10,+$("#rad").value||30);cfg.bday=$("#bday").value.trim();
+    for(const k of ["huegel","baum"]){const h=$("#hint_"+k);if(h)cfg.points[k].hint=h.value}saveCfg()};
+  C.querySelectorAll("[data-save]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.save;$("#pos_"+k).textContent="Suche GPS … (bitte kurz stillstehen)";
+    let best=null,cnt=0;
+    const id=navigator.geolocation.watchPosition(p=>{cnt++;if(!best||p.coords.accuracy<best.coords.accuracy)best=p;
+      $("#pos_"+k).textContent=`Messung ${cnt}: ± ${Math.round(p.coords.accuracy)} m`;
+      if(cnt>=6||best.coords.accuracy<8){navigator.geolocation.clearWatch(id);cfg.points[k].lat=best.coords.latitude;cfg.points[k].lon=best.coords.longitude;collect();
+        $("#pos_"+k).innerHTML=`<span class="ok-txt">✔ gespeichert (± ${Math.round(best.coords.accuracy)} m)</span>`;beep(990)}},
+      e=>{$("#pos_"+k).innerHTML=`<span class="bad-txt">GPS-Fehler: ${esc(e.message)}</span>`},{enableHighAccuracy:true,maximumAge:0,timeout:30000});
+  });
+  C.querySelectorAll("[data-photo]").forEach(inp=>inp.onchange=()=>{
+    const f=inp.files[0];if(!f)return;const img=new Image();const u=URL.createObjectURL(f);
+    img.onload=()=>{const s=Math.min(1,700/Math.max(img.width,img.height));const cv=document.createElement("canvas");cv.width=img.width*s;cv.height=img.height*s;cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+      collect();cfg.points[inp.dataset.photo].photo=cv.toDataURL("image/jpeg",.7);saveCfg();URL.revokeObjectURL(u);alertBox("Foto gespeichert ✔");openAdmin(true)};img.src=u;
+  });
+  $("#saveAll").onclick=()=>{collect();alertBox("Gespeichert ✔")};
+  $("#prev").onclick=()=>{collect();st.step=Math.max(0,st.step-1);saveSt();openAdmin(true)};
+  $("#next").onclick=()=>{collect();st.step=Math.min(13,st.step+1);if(st.step===3)st.keys[0]=true;if(st.step===5)st.keys[1]=true;if(st.step===9)st.keys[2]=true;saveSt();updKeys();openAdmin(true)};
+  $("#exp").onclick=async()=>{collect();const o={bday:cfg.bday,radius:cfg.radius,word:cfg.word,wordHint:cfg.wordHint,chestPlace:cfg.chestPlace,points:{}};
+    for(const k in cfg.points){const p=cfg.points[k];o.points[k]={name:p.name,lat:p.lat,lon:p.lon,hint:p.hint}}
+    const link=location.origin+location.pathname+"#cfg="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))));
+    const t=$("#expOut");t.style.display="block";t.value=link;t.select();
+    try{await navigator.clipboard.writeText(link);alertBox("Link kopiert ✔")}catch(e){alertBox("Link markiert – bitte manuell kopieren")}};
+  $("#reset").onclick=()=>{st={step:0,names:[],keys:[false,false,false],start:null,quiz:0};saveSt();updKeys();alertBox("Spiel zurückgesetzt")};
+  $("#close").onclick=()=>{collect();closeAdmin()};
+}
+function closeAdmin(){$("#admin").style.display="none";render()}
+
+/* ============ Theme ============ */
+function setTheme(t){document.documentElement.dataset.theme=t;$("#themeBtn").textContent=t==="dark"?"☀️":"🌙";try{localStorage.setItem("hc_theme",t)}catch(e){}}
+$("#themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+try{setTheme(localStorage.getItem("hc_theme")||"light")}catch(e){setTheme("light")}
+
+/* ============ Start ============ */
+function render(){stopRadar();updKeys();danger();(steps[st.step]||steps[0])()}
+render();
+</script>
+</body>
+</html>
