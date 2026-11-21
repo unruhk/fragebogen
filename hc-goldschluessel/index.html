@@ -296,6 +296,7 @@ const VOICES={
   v4:{f:"04_sarah_v2.mp3",who:"sarah",t:"Sarah hier! Ihr habt alle drei Schlüssel, und der Spion ist jetzt auf eurer Seite! Schnell zum großen Baum am Teich, bevor Mr. Michaels es merkt!"},
   v5:{f:"05_sophia.mp3",who:"sophia",t:"Sophia hier! Ihr habt die Truhe? Unglaublich! Bringt sie schnell ins Hauptquartier, also nach Hause. Dort öffnet ihr sie gemeinsam. Und passt auf, dass sie nicht runterfällt!"},
   v6:{f:"06_michaels.mp3",who:"michaels",t:"Hier spricht Mr. Michaels! Das kann doch nicht wahr sein! Drei Mädchen und mein eigener Spion! Na schön. Ihr habt gewonnen. Der Wald bleibt, wie er ist. Aber das nächste Mal … ach, egal."},
+  v8:{f:"08_spion.mp3",who:"spion",t:"Danke … ihr seid ja gar nicht gemein! Mr. Michaels hat gesagt, ihr seid fies. Aber ihr habt mir geholfen. Hier ist euer Schlüssel. Ich bin jetzt auf eurer Seite! Und ich verrate euch ein Geheimnis: Die Truhe hängt im großen Baum am Teich!"},
   v7:{f:"07_finale.mp3",who:"club",t:"Hurra! Ihr habt es geschafft! Der Peppertree-Wald ist gerettet, und unser Wohnwagen bleibt stehen. Ab heute seid ihr Ehrenmitglieder im Horse Club! Und an das Geburtstagskind: Alles, alles Gute zum zehnten Geburtstag!"}
 };
 const AU=new Audio();AU.preload="auto";
@@ -526,14 +527,13 @@ steps[11]=()=>{
     b.classList.add("ok");okSnd();app.querySelector('[data-c="weg"]').classList.add("dim");
     let n=0;
     $("#help").innerHTML=`<div class="tiles" style="margin-top:14px">${[["💬","Geht’s?"],["🩹","Pflaster"],["🤝","Aufhelfen"]].map(x=>`<button class="tile"><span class="em">${x[0]}</span><small>${x[1]}</small></button>`).join("")}</div>`;
-    $("#help").querySelectorAll(".tile").forEach(t=>t.onclick=()=>{if(t.classList.contains("ok"))return;t.classList.add("ok");okSnd();if(++n>=3)setTimeout(()=>go(12),700)});
+    $("#help").querySelectorAll(".tile").forEach(t=>t.onclick=()=>{if(t.classList.contains("ok"))return;t.classList.add("ok");okSnd();if(++n>=3){go(12);playV("v8")}});
   });
 };
 // 12 Seitenwechsel: Schlüssel zurück, Versteck verraten
 steps[12]=()=>{
   if(st.keys[2]!==1){gotKey(2)}
-  app.innerHTML=`<div class="card">${ttl("🤝","Ein neuer Freund")}
-  <div class="bubble">🕵️ „Danke! Hier ist euer Schlüssel. Ich bin jetzt auf eurer Seite! Die Truhe hängt <b>${esc(cfg.chestPlace)}</b>!“</div>
+  app.innerHTML=`<div class="card">${ttl("🤝","Ein neuer Freund")}${voiceCard("v8")}
   <div class="bigem">🌳📦</div><button class="big pulse" id="b">Los zum Teich! 🏃‍♀️</button></div>`;
   $("#b").onclick=()=>{st.d0=null;go(13);playV("v4")};
 };
@@ -579,7 +579,7 @@ steps[17]=()=>{
   ${cfg.bday?`<p style="text-align:center;font-size:22px">🎂 <b>Alles Gute, ${esc(cfg.bday)}!</b> 🎂</p>`:""}</div>`;
   confetti();
 };
-const STEPNAMES=["Namen","Hilferuf (V1)","→ Parkeingang (V2)","Geheimschrift","Schlüssel 1","→ Hügel","Pferdekennerinnen-Prüfung + Schlüssel 2","Spion gesichtet","Zeichen am Schlüssel","→ Spinne","Spion hat Schlüssel 3 (V3)","Verletzt: helfen","Seitenwechsel","→ Teichbaum (V4)","Truhe runterlassen","→ Zuhause (V5, V6)","Schlösser öffnen","Sieg (V7)"];
+const STEPNAMES=["Namen","Hilferuf (V1)","→ Parkeingang (V2)","Geheimschrift","Schlüssel 1","→ Hügel","Pferdekennerinnen-Prüfung + Schlüssel 2","Spion gesichtet","Zeichen am Schlüssel","→ Spinne","Spion hat Schlüssel 3 (V3)","Verletzt: helfen","Seitenwechsel (V8)","→ Teichbaum (V4)","Truhe runterlassen","→ Zuhause (V5, V6)","Schlösser öffnen","Sieg (V7)"];
 const LAST=STEPNAMES.length-1;
 function keysFor(s){return [s>=5?1:0,s>=7?1:0,s>=10?(s<=11?2:1):0]}
 
