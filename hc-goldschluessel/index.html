@@ -94,7 +94,7 @@ input[type=text],input[type=number],textarea{width:100%;font-size:18px;padding:1
 .wave i{flex:1;background:var(--green);border-radius:3px;opacity:.55;transform-origin:center}
 .vc.playing .wave i{animation:wv .8s ease-in-out infinite;opacity:1}
 @keyframes wv{50%{transform:scaleY(.3)}}
-.vc .play{width:58px;height:58px;border-radius:50%;border:0;flex:none;font-size:24px;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8a6510}
+.vc .play{display:flex;align-items:center;justify-content:center;padding:0;width:58px;height:58px;border-radius:50%;border:0;flex:none;font-size:24px;color:#3b2a1a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8a6510}
 details.vt{font-size:14px;color:var(--muted);margin:-2px 4px 6px}
 details.vt summary{cursor:pointer;list-style:none;font-size:13px}
 details.vt summary::-webkit-details-marker{display:none}
@@ -197,7 +197,7 @@ const DEFAULT_CFG={
   points:{
     eingang:{name:"Großer Baum am Parkeingang",icon:"🌳",lat:null,lon:null,hint:"Zwischen den Wurzeln!",photo:null},
     huegel:{name:"Der Hügel",icon:"⛰️",lat:null,lon:null,hint:"Ganz oben …",photo:null},
-    spinne:{name:"Die Kletterspinne",icon:"🕷️",lat:null,lon:null,hint:"Ganz oben im Netz!",photo:null},
+    spinne:{name:"Die Kletterspinne",icon:"🕸️",lat:null,lon:null,hint:"Ganz oben im Netz!",photo:null},
     baum:{name:"Großer Baum am Teich",icon:"🌳",lat:null,lon:null,hint:"Schaut nach oben!",photo:null},
     home:{name:"Hauptquartier (zu Hause)",icon:"🏠",lat:null,lon:null,hint:"",photo:null}
   }
@@ -301,7 +301,8 @@ const VOICES={
 };
 const AU=new Audio();AU.preload="auto";
 let curV=null, tok=0;
-function setPlaying(id,on){document.querySelectorAll(`.vc[data-v="${id}"]`).forEach(e=>{e.classList.toggle("playing",on);if(on)e.classList.remove("wait");const b=e.querySelector(".play");if(b)b.textContent=on?"❚❚":"▶"})}
+const PLAY_I='<svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5 L19 12 L8 19 Z" fill="currentColor"/></svg>',PAUSE_I='<svg viewBox="0 0 24 24" width="26" height="26"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>';
+function setPlaying(id,on){document.querySelectorAll(`.vc[data-v="${id}"]`).forEach(e=>{e.classList.toggle("playing",on);if(on)e.classList.remove("wait");const b=e.querySelector(".play");if(b)b.innerHTML=on?PAUSE_I:PLAY_I})}
 function stopV(){tok++;try{AU.pause()}catch(e){}try{speechSynthesis.cancel()}catch(e){}if(curV)setPlaying(curV,false);curV=null}
 function tts(id,my){
   if(my!==tok)return;
@@ -322,7 +323,7 @@ function playV(id){
 function voiceCard(id){
   const v=VOICES[id],c=CHAR[v.who];
   const bars=Array.from({length:18},(_,i)=>`<i style="height:${30+((i*37)%70)}%;animation-delay:${(i%6)*.09}s"></i>`).join("");
-  return `<div class="vc" data-v="${id}"><div class="av">${c.av}</div><div class="mid"><div class="who">${c.n}</div><div class="wave">${bars}</div></div><button class="play" data-play="${id}" aria-label="Abspielen">▶</button></div>
+  return `<div class="vc" data-v="${id}"><div class="av">${c.av}</div><div class="mid"><div class="who">${c.n}</div><div class="wave">${bars}</div></div><button class="play" data-play="${id}" aria-label="Abspielen">${PLAY_I}</button></div>
   <details class="vt"><summary>📝 Text</summary>${esc(v.t)}</details>`;
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-play]");if(!b)return;const id=b.dataset.play;if(curV===id)stopV();else playV(id)});
@@ -377,7 +378,7 @@ function horseSVG(body,mane,cls,extra){
 const SYM={
   huf:`<svg viewBox="0 0 60 60"><path d="M14 52 V30 A16 16 0 0 1 46 30 V52" fill="none" stroke="currentColor" stroke-width="7"/></svg>`,
   baum:`<svg viewBox="0 0 60 60"><path d="M30 6 L12 30 H22 L10 44 H50 L38 30 H48 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M30 44 V56" stroke="currentColor" stroke-width="4"/></svg>`,
-  spinne:`<svg viewBox="0 0 60 60"><g stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"><path d="M24 30 L10 20 L6 10 M24 34 L8 32 L3 38 M25 38 L12 46 L10 56 M36 30 L50 20 L54 10 M36 34 L52 32 L57 38 M35 38 L48 46 L50 56"/><path d="M30 2 V18"/></g><circle cx="30" cy="36" r="9" fill="currentColor"/><circle cx="30" cy="23" r="6" fill="currentColor"/></svg>`,
+  spinne:`<svg viewBox="0 0 60 60"><g stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M30 30 L54.9 40.3 M30 30 L40.3 54.9 M30 30 L19.7 54.9 M30 30 L5.1 40.3 M30 30 L5.1 19.7 M30 30 L19.7 5.1 M30 30 L40.3 5.1 M30 30 L54.9 19.7 M37.4 33.1 L33.1 37.4 L26.9 37.4 L22.6 33.1 L22.6 26.9 L26.9 22.6 L33.1 22.6 L37.4 26.9 Z M43.9 35.7 L35.7 43.9 L24.3 43.9 L16.1 35.7 L16.1 24.3 L24.3 16.1 L35.7 16.1 L43.9 24.3 Z M50.3 38.4 L38.4 50.3 L21.6 50.3 L9.7 38.4 L9.7 21.6 L21.6 9.7 L38.4 9.7 L50.3 21.6 Z " stroke-width="1.6" opacity=".75"/><path d="M38 22 V36" stroke-width="1.2"/><path d="M35 38.2 L30.8 35 L28 39 M41 38.2 L45.2 35 L48 39 M35 39.4 L30.2 37 L27 41 M41 39.4 L45.8 37 L49 41 M35 40.6 L30.2 39 L27 43 M41 40.6 L45.8 39 L49 43 M35 41.8 L30.8 41 L28 45 M41 41.8 L45.2 41 L48 45 " stroke-width="2"/></g><circle cx="38" cy="42" r="4.6" fill="currentColor"/><circle cx="38" cy="37" r="3" fill="currentColor"/></svg>`,
   welle:`<svg viewBox="0 0 60 60"><path d="M4 24 Q15 12 26 24 T48 24 T60 24 M4 40 Q15 28 26 40 T48 40 T60 40" fill="none" stroke="currentColor" stroke-width="3"/></svg>`
 };
 function lockSVG(col,heart){return `<svg viewBox="0 0 84 110"><path class="sh" d="M22 52 V30 A20 20 0 0 1 62 30 V52" fill="none" stroke="#9aa0a6" stroke-width="9"/><rect x="8" y="48" width="68" height="56" rx="10" fill="${col}"/>${heart?`<path d="M42 90 L28 76 A8 8 0 0 1 42 66 A8 8 0 0 1 56 76 Z" fill="#00000030"/>`:""}<circle cx="42" cy="${heart?62:76}" r="5" fill="#00000040"/></svg>`}
