@@ -56,9 +56,9 @@ header small{display:block;color:var(--muted);font-weight:normal;font-size:12px}
 .tile img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
 .tiles.pics .tile{padding:4px}
 video.lauf{display:block;width:100%;max-width:300px;margin:0 auto;border-radius:12px;background:#fff}
-.rolebar{display:flex;gap:6px;margin:0 0 4px;font-size:12.5px}
+.rolebar{display:flex;gap:4px;margin:0 0 4px;font-size:11px}
 .rolebar span{flex:1;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rolebar b{display:flex;align-items:center;justify-content:center;gap:4px;font-size:13.5px}
+.rolebar b{display:flex;align-items:center;justify-content:center;gap:3px;font-size:12.5px;overflow:hidden}
 .pav{font-style:normal;line-height:1;display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;flex:none;background:var(--tile);border:2px solid var(--gold);vertical-align:middle}
 .pav img{width:100%;height:100%;object-fit:cover}
 .nrow{display:flex;align-items:center;gap:10px;margin:6px 0}
@@ -67,7 +67,7 @@ video.lauf{display:block;width:100%;max-width:300px;margin:0 auto;border-radius:
 .camb .pav{width:64px;height:64px;font-size:28px}
 .camb>i:not(.pav){position:absolute;right:-2px;bottom:-2px;font-style:normal;font-size:16px;background:var(--paper);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;box-shadow:var(--shadow)}
 .names .hm{display:flex;flex-direction:column;align-items:center;gap:4px;animation:pop .5s ease both}
-.names .hm .pav{width:84px;height:84px;font-size:38px;border-width:3px}
+.names .hm .pav{width:72px;height:72px;font-size:32px;border-width:3px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0;box-shadow:var(--shadow);animation:pop .45s ease both}
 @keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
 .ttl{display:flex;align-items:center;gap:10px;margin:0 0 6px}
@@ -218,7 +218,7 @@ let cfg=loadCfg();
 const ST0=()=>({step:0,names:[],keys:[0,0,0],quiz:0,heard:{},d0:null});
 let st=Object.assign(ST0(),store.get(LS_ST,{}));
 const saveCfg=()=>store.set(LS_CFG,cfg), saveSt=()=>store.set(LS_ST,st);
-let pics=store.get("hc_pics_v2",[null,null,null]);const savePics=()=>store.set("hc_pics_v2",pics);
+let pics=store.get("hc_pics_v2",[null,null,null,null]);const savePics=()=>store.set("hc_pics_v2",pics);
 
 /* Import der Einrichtung per Link: …/#cfg=… */
 (function(){
@@ -238,8 +238,9 @@ let pics=store.get("hc_pics_v2",[null,null,null]);const savePics=()=>store.set("
 const $=s=>document.querySelector(s);
 const app=$("#app");
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const N=i=>esc(st.names[i]||["Mädchen 1","Mädchen 2","Mädchen 3"][i]);
-const HEARTS=["🧡","💗","💙"];
+const NP=4;
+const N=i=>esc(st.names[i]||"Mädchen "+(i+1));
+const HEARTS=["🧡","💗","💙","💜"];
 function av(i,px){return `<i class="pav" style="width:${px}px;height:${px}px;font-size:${Math.round(px*.5)}px">${pics[i]?`<img src="${pics[i]}" alt="">`:HEARTS[i]}</i>`}
 /* Foto quadratisch zuschneiden und verkleinern (nur auf diesem Handy gespeichert) */
 function takePic(file,cb){const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const m=Math.min(img.width,img.height),cv=document.createElement("canvas");cv.width=cv.height=240;
@@ -279,10 +280,10 @@ function mtrack(){const t=$("#mtrack");if(st.step<1||st.step>LAST){t.hidden=true
   m.style.left=`calc((100% - 70px) * ${p/100} + 18px)`;
   m.className="mm "+(st.step===LAST?"fallen":p>=85?"grab":"walk")}
 /* Rollen wechseln je Station */
-const ROLES=[["🧭","Karte"],["🧩","Rätsel"],["🔑","Schlüssel"]];
+const ROLES=[["🧭","Karte"],["🧩","Rätsel"],["🔑","Schlüssel"],["👀","Spionwache"]];
 function roleOff(s){return s<5?0:s<8?1:s<12?2:s<15?0:1}
 function rolebar(){const r=$("#rolebar");if(st.step<1||st.step>=LAST){r.hidden=true;return}r.hidden=false;const o=roleOff(st.step);
-  r.innerHTML=ROLES.map((x,i)=>`<span>${x[0]} ${x[1]}<b>${av((i+o)%3,22)}${N((i+o)%3)}</b></span>`).join("")}
+  r.innerHTML=ROLES.map((x,i)=>`<span>${x[0]} ${x[1]}<b>${av((i+o)%NP,22)}${N((i+o)%NP)}</b></span>`).join("")}
 
 /* ============ Sprachnachrichten ============ */
 const CHAR={
@@ -392,15 +393,15 @@ const steps=[];
 // 0 Namen
 steps[0]=()=>{
   app.innerHTML=`<div class="card">${ttl("🐎","Geheime Mission")}<p class="sub">📷 Foto + Name</p>
-  ${[0,1,2].map(i=>`<div class="nrow"><button class="camb" data-cam="${i}" aria-label="Foto machen">${av(i,64)}<i>📷</i></button>
+  ${[0,1,2,3].map(i=>`<div class="nrow"><button class="camb" data-cam="${i}" aria-label="Foto machen">${av(i,64)}<i>📷</i></button>
     <input type="file" accept="image/*" capture="user" id="f${i}" hidden><input type="text" id="n${i}" placeholder="Name" value="${esc(st.names[i]||"")}"></div>`).join("")}
   <button class="big pulse" id="b">Mission annehmen</button></div>`;
   app.querySelectorAll("[data-cam]").forEach(b=>b.onclick=()=>$("#f"+b.dataset.cam).click());
-  [0,1,2].forEach(i=>$("#f"+i).onchange=e=>{const f=e.target.files[0];if(!f)return;
+  [0,1,2,3].forEach(i=>$("#f"+i).onchange=e=>{const f=e.target.files[0];if(!f)return;
     takePic(f,d=>{pics[i]=d;savePics();const b=app.querySelector(`[data-cam="${i}"]`);b.innerHTML=av(i,64)+"<i>📷</i>";okSnd()})});
   $("#b").onclick=()=>{
-    const n=[0,1,2].map(i=>$("#n"+i).value.trim());
-    if(n.some(x=>!x)){alertBox("Bitte alle drei Namen eintragen.");return}
+    const n=[0,1,2,3].map(i=>$("#n"+i).value.trim());
+    if(n.some(x=>!x)){alertBox("Bitte alle vier Namen eintragen.");return}
     st.names=n;go(1);playV("v1");
   };
 };
@@ -575,8 +576,8 @@ steps[16]=()=>{
 // 17 Sieg
 steps[17]=()=>{
   app.innerHTML=`<div class="card">${ttl("🏆","Wald gerettet!")}${voiceCard("v7")}
-  <div class="bigem">🐴🐴🐴</div><p class="sub" style="text-align:center">Ehrenmitglieder im Horse Club:</p>
-  <div class="names">${[0,1,2].map(i=>`<div class="hm" style="animation-delay:${i*.25}s">${av(i,84)}<span>${N(i)}</span></div>`).join("")}</div>
+  <div class="bigem">🐴🐴🐴🐴</div><p class="sub" style="text-align:center">Ehrenmitglieder im Horse Club:</p>
+  <div class="names">${[0,1,2,3].map(i=>`<div class="hm" style="animation-delay:${i*.25}s">${av(i,72)}<span>${N(i)}</span></div>`).join("")}</div>
   ${cfg.bday?`<p style="text-align:center;font-size:22px">🎂 <b>Alles Gute, ${esc(cfg.bday)}!</b> 🎂</p>`:""}</div>`;
   confetti();
 };
@@ -646,7 +647,7 @@ function openAdmin(unlocked){
     const link=location.origin+location.pathname+"#cfg="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))));
     const t=$("#expOut");t.style.display="block";t.value=link;t.select();
     try{await navigator.clipboard.writeText(link);alertBox("Link kopiert ✔")}catch(e){alertBox("Link markiert, bitte manuell kopieren")}};
-  $("#reset").onclick=()=>{stopV();st=ST0();saveSt();pics=[null,null,null];savePics();updKeys();alertBox("Spiel zurückgesetzt")};
+  $("#reset").onclick=()=>{stopV();st=ST0();saveSt();pics=[null,null,null,null];savePics();updKeys();alertBox("Spiel zurückgesetzt")};
   $("#close").onclick=()=>{collect();closeAdmin()};
 }
 function closeAdmin(){$("#admin").style.display="none";render()}
